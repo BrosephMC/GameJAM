@@ -33,22 +33,22 @@ def main():
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 # Player 1 movement with WASD
-                if event.key == pygame.K_a and player1_x > 0:
+                if event.key == pygame.K_a and player1_x > 0 and (player1_x - move_speed, player1_y) != (player2_x, player2_y):
                     player1_x -= move_speed
-                elif event.key == pygame.K_d and player1_x < GRID_WIDTH - 1:
+                elif event.key == pygame.K_d and player1_x < GRID_WIDTH - 1 and (player1_x + move_speed, player1_y) != (player2_x, player2_y):
                     player1_x += move_speed
-                elif event.key == pygame.K_w and player1_y > 0:
+                elif event.key == pygame.K_w and player1_y > 0 and (player1_x, player1_y - move_speed) != (player2_x, player2_y):
                     player1_y -= move_speed
-                elif event.key == pygame.K_s and player1_y < GRID_HEIGHT - 1:
+                elif event.key == pygame.K_s and player1_y < GRID_HEIGHT - 1 and (player1_x, player1_y + move_speed) != (player2_x, player2_y):
                     player1_y += move_speed
                 # Player 2 movement with arrow keys
-                elif event.key == pygame.K_LEFT and player2_x > 0:
+                elif event.key == pygame.K_LEFT and player2_x > 0 and (player2_x - move_speed, player2_y) != (player1_x, player1_y):
                     player2_x -= move_speed
-                elif event.key == pygame.K_RIGHT and player2_x < GRID_WIDTH - 1:
+                elif event.key == pygame.K_RIGHT and player2_x < GRID_WIDTH - 1 and (player2_x + move_speed, player2_y) != (player1_x, player1_y):
                     player2_x += move_speed
-                elif event.key == pygame.K_UP and player2_y > 0:
+                elif event.key == pygame.K_UP and player2_y > 0 and (player2_x, player2_y - move_speed) != (player1_x, player1_y):
                     player2_y -= move_speed
-                elif event.key == pygame.K_DOWN and player2_y < GRID_HEIGHT - 1:
+                elif event.key == pygame.K_DOWN and player2_y < GRID_HEIGHT - 1 and (player2_x, player2_y + move_speed) != (player1_x, player1_y):
                     player2_y += move_speed
 
         # Draw grid
