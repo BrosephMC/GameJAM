@@ -53,6 +53,8 @@ two_image = pygame.transform.scale(two_image, (30, 40))
 player_images = [pygame.transform.rotate(player_image, angle) for angle in (0, 90, 180, 270)]
 opponent_images = [pygame.transform.rotate(opponent_image, angle) for angle in (0, 90, 180, 270)]
 
+#=============================================================================================
+
 # Player class
 class Player:
     def __init__(self, x, y):
@@ -91,6 +93,8 @@ def finish_turn():
         player_turn = 1
     turn_state = 0
     start_time = pygame.time.get_ticks()
+
+#======================================================================
 
 # Main game loop
 def main():
@@ -142,6 +146,8 @@ def main():
                     elif event.key == pygame.K_DOWN:
                         player2.move(0, move_speed, player1)
                         highlighted_bubble = 2
+
+        #==============================================================
 
         # Draw background
         # WINDOW.fill(WHITE)
