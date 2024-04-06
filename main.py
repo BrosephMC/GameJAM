@@ -4,52 +4,66 @@ import sys
 # Initialize Pygame
 pygame.init()
 
-# Set screen dimensions
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Genshin Impact Lite")
+# Set up the window
+WIDTH, HEIGHT = 700, 500
+GRID_SIZE = 100
+GRID_WIDTH, GRID_HEIGHT = WIDTH // GRID_SIZE, HEIGHT // GRID_SIZE
+WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Grid Movement Game")
 
-# Set colors
-WHITE = (255, 255, 255)
-BLUE = (0, 0, 255)
-
-# Set player attributes
-player_width = 50
-player_height = 50
-player_x = SCREEN_WIDTH // 2 - player_width // 2
-player_y = SCREEN_HEIGHT // 2 - player_height // 2
-player_vel = 5
+# Load player and opponent images
+player_image = pygame.image.load('images/player.png').convert_alpha()
+player_image = pygame.transform.scale(player_image, (GRID_SIZE, GRID_SIZE))
+opponent_image = pygame.image.load('images/opponent.png').convert_alpha()
+opponent_image = pygame.transform.scale(opponent_image, (GRID_SIZE, GRID_SIZE))
 
 # Main game loop
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+def main():
+    player1_x, player1_y = 0, 0
+    player2_x, player2_y = GRID_WIDTH - 1, GRID_HEIGHT - 1
+    move_speed = 1  # Number of squares the player moves at a time
 
-    # Player movement
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        player_x -= player_vel
-    if keys[pygame.K_RIGHT]:
-        player_x += player_vel
-    if keys[pygame.K_UP]:
-        player_y -= player_vel
-    if keys[pygame.K_DOWN]:
-        player_y += player_vel
+    running = True
 
-    # Boundary checking
-    player_x = max(0, min(SCREEN_WIDTH - player_width, player_x))
-    player_y = max(0, min(SCREEN_HEIGHT - player_height, player_y))
+    while running:
+        # Handle events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                # Player 1 movement with WASD
+                if event.key == pygame.K_a and player1_x > 0:
+                    player1_x -= move_speed
+                elif event.key == pygame.K_d and player1_x < GRID_WIDTH - 1:
+                    player1_x += move_speed
+                elif event.key == pygame.K_w and player1_y > 0:
+                    player1_y -= move_speed
+                elif event.key == pygame.K_s and player1_y < GRID_HEIGHT - 1:
+                    player1_y += move_speed
+                # Player 2 movement with arrow keys
+                elif event.key == pygame.K_LEFT and player2_x > 0:
+                    player2_x -= move_speed
+                elif event.key == pygame.K_RIGHT and player2_x < GRID_WIDTH - 1:
+                    player2_x += move_speed
+                elif event.key == pygame.K_UP and player2_y > 0:
+                    player2_y -= move_speed
+                elif event.key == pygame.K_DOWN and player2_y < GRID_HEIGHT - 1:
+                    player2_y += move_speed
 
-    # Draw everything
-    screen.fill(WHITE)
-    pygame.draw.rect(screen, BLUE, (player_x, player_y, player_width, player_height))
-    pygame.display.flip()
+        # Draw grid
+        WINDOW.fill((255, 255, 255))
+        for x in range(0, WIDTH, GRID_SIZE):
+            pygame.draw.line(WINDOW, (0, 0, 0), (x, 0), (x, HEIGHT))
+        for y in range(0, HEIGHT, GRID_SIZE):
+            pygame.draw.line(WINDOW, (0, 0, 0), (0, y), (WIDTH, y))
 
-    # FPS
-    pygame.time.Clock().tick(60)
+        # Draw players
+        WINDOW.blit(player_image, (player1_x * GRID_SIZE, player1_y * GRID_SIZE))
+        WINDOW.blit(opponent_image, (player2_x * GRID_SIZE, player2_y * GRID_SIZE))
 
-pygame.quit()
-sys.exit()
+        pygame.display.update()
+
+# Run the game
+if __name__ == "__main__":
+    main()
