@@ -374,10 +374,11 @@ def main():
         # Draw grid border
         pygame.draw.rect(WINDOW, GRAY, (50, 50, GRID_WIDTH * GRID_SIZE, GRID_HEIGHT * GRID_SIZE), BORDER_SIZE)
 
-        #health bar
+        #health bar player 1
         pygame.draw.rect(WINDOW, WHITE, (10, 530, 100 * 1.5, 30), border_radius= 0)
         pygame.draw.rect(WINDOW, RED, (10, 530, player1.health * 1.5, 30), border_radius= 0)
 
+        #health bear player 2
         pygame.draw.rect(WINDOW, WHITE, (WIDTH - 162, 530, 100 * 1.5, 30), border_radius= 0)
         pygame.draw.rect(WINDOW, RED, (WIDTH - 162, 530, player2.health * 1.5, 30), border_radius= 0)
 
