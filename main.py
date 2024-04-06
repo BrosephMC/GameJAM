@@ -141,8 +141,8 @@ def main():
         timer_surface.blit(timer_text, (5, 5))
         WINDOW.blit(timer_surface, (5, 5))  # Position the timer overlay
 
-        text_surface = FONT.render("Player Turn: " + str(player_turn), True, (0, 0, 0))  # Render the text with variable value
-        WINDOW.blit(text_surface, (300, 5))  # Blit the text surface onto the window
+        text_surface = FONT.render("Player Turn: " + str(player_turn), True, WHITE)  # Render the text with variable value
+        WINDOW.blit(text_surface, (300, 10))  # Blit the text surface onto the window
 
         pygame.display.update()
 
