@@ -434,14 +434,14 @@ def main():
 
         # Clock - Calculate elapsed time
         elapsed_time = (pygame.time.get_ticks() - start_time)
-        timer_surface = pygame.Surface((200, 50), pygame.SRCALPHA)
-        timer_text = FONT.render(f"Time: {elapsed_time}ms", True, BLACK)
+        #timer_surface = pygame.Surface((200, 50), pygame.SRCALPHA)
+        #timer_text = FONT.render(f"Time: {elapsed_time}ms", True, BLACK)
 
-        timer_surface.blit(timer_text, (5, 5))
-        WINDOW.blit(timer_surface, (5, 5))  # Position the timer overlay
+       # timer_surface.blit(timer_text, (5, 5))
+        #WINDOW.blit(timer_surface, (5, 5))  # Position the timer overlay
 
-        text_surface = FONT.render("Player Turn: " + str(player_turn), True, WHITE)  # Render the text with variable value
-        WINDOW.blit(text_surface, (300, 10))  # Blit the text surface onto the window
+        #text_surface = FONT.render("Player Turn: " + str(player_turn), True, WHITE)  # Render the text with variable value
+        #WINDOW.blit(text_surface, (300, 10))  # Blit the text surface onto the window
 
         # Progress Bar
         if turn_state == 0:
