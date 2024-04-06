@@ -81,12 +81,12 @@ def handle_random_outcome(player, other_player, random_number):
         print("Invalid random number:", random_number)
 
 def fire_ball():
-    print("fire_ball")
+    return ["fire ball", [-20, 0, 1]]
     
 def punch():
     #print("punch")
     #[damage, left, forward]
-    return ["punch", [-20, 0, 1]]
+    return ["punch", [-20, 0, 1], [-20, 0, 2]]
     
 def bishop():
     print("bishop")
