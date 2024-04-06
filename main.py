@@ -71,7 +71,7 @@ opponent_images = [pygame.transform.rotate(opponent_image, angle) for angle in (
 
 def generate_random_number():
     # return random.randint(0, 37)
-    return 21
+    return 9
 
 def handle_random_outcome(player, other_player, random_number):
     global time_multiplier
@@ -112,7 +112,7 @@ def cleave():
     return ["cleave", [-12, 0, 1, ], [-12, 1, 1, ], [-12, -1, 1, ]]
 
 def arm_day():
-    print("arm_day")
+    return ["arm day"]
 
 def prayer():
     return ["prayer", [15, 0, 0], [15, 0, 1], [15, 1, 1], [15, 1, 0], [15, -1, 1], [15, 1, -1], [15, -1, -1], [15, -1, 0], [15, 0, -1]]
@@ -165,7 +165,7 @@ def broke():
     print("broke")
 
 def paper_cut():
-    print("paper_cut")
+    return ["paper cut", [-5, 0, 0]]
 
 def dehydrated():
     print("dehydrated")
@@ -189,7 +189,7 @@ def but_y():
     print("but_y")
 
 def band_member():
-    print("band_member")
+    return ["band member", [-12, 0, 0]]
 
 def scared():
     print("scared")
@@ -266,7 +266,9 @@ class Player:
         #Special cases
         if input_code[0] == "zoom":
             self.x = random.randint(0, GRID_WIDTH-1)
-            self.y = random.randint(0, GRID_HEIGHT-1)            
+            self.y = random.randint(0, GRID_HEIGHT-1)
+        elif input_code[0] == "arm day":
+            self.attack_multiplier *= 1.25           
 
         for i in range(1, len(input_code)):
             coords = calculate_direction([input_code[i][1], input_code[i][2]], self.direction)
@@ -486,8 +488,8 @@ def main():
         pygame.draw.rect(WINDOW, YELLOW, (150, HEIGHT-50, (time_multiplier-1)*200, 10), border_radius = 10)
 
         # Attack Multiplier
-        WINDOW.blit(FONT.render("x" + str(player1.attack_multiplier), True, WHITE), (10, HEIGHT - 135))
-        WINDOW.blit(FONT.render("x" + str(player2.attack_multiplier), True, WHITE), (460, HEIGHT - 135))
+        WINDOW.blit(FONT.render("x" + str(round(player1.attack_multiplier, 3)), True, BLACK), (20, HEIGHT - 135))
+        WINDOW.blit(FONT.render("x" + str(round(player2.attack_multiplier, 3)), True, BLACK), (420, HEIGHT - 135))
 
         # Attack text
         WINDOW.blit(attack_text_surface, (-200 + progress_width * 1.5, 240))
