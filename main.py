@@ -31,6 +31,7 @@ BLUE = (0, 100, 255)
 BROWN = (59, 55, 54)
 FONT = pygame.font.SysFont(None, 30)
 font = pygame.font.Font(None, 20)  # Adjusted font size
+GIANT_FONT = pygame.font.SysFont(None, 100)
 
 # Bubble properties
 bubble_width = int(100 * 0.9)  # Decreased width by 10%
@@ -382,16 +383,6 @@ def main():
         pygame.draw.rect(WINDOW, WHITE, (WIDTH - 162, 530, 100 * 1.5, 30), border_radius= 0)
         pygame.draw.rect(WINDOW, RED, (WIDTH - 162, 530, player2.health * 1.5, 30), border_radius= 0)
 
-        #highlight hits
-        if highlighted_bubble and turn_state == 1:
-            input_code = outcome_functions.get(move_list[highlighted_bubble-1]+1)
-
-            player = player1 if player_turn == 1 else player2
-
-            for i in range(1, len(input_code())):
-                coords = calculate_direction([input_code()[i][1], input_code()[i][2]], player.direction)
-                pygame.draw.rect(WINDOW, RED, ((player.x + coords[0]) * GRID_SIZE + 50 + 10, (player.y + coords[1]) * GRID_SIZE + 50 + 10, GRID_SIZE - 20, GRID_SIZE - 20), border_radius=10)
-
         # Draw grid
         for x in range(50 + GRID_SIZE, 50 + GRID_WIDTH * GRID_SIZE, GRID_SIZE):
             pygame.draw.line(WINDOW, GRAY, (x, 50), (x, 50 + GRID_HEIGHT * GRID_SIZE - 1), BORDER_SIZE)
@@ -401,6 +392,20 @@ def main():
         # Draw players with rotation
         WINDOW.blit(player_images[player1.direction], (player1.x * GRID_SIZE + 50, player1.y * GRID_SIZE + 50))
         WINDOW.blit(opponent_images[player2.direction], (player2.x * GRID_SIZE + 50, player2.y * GRID_SIZE + 50))
+
+        #highlight hits
+        attack_text_surface = GIANT_FONT.render("", True, WHITE)
+
+        if highlighted_bubble and turn_state == 1:
+            input_code = outcome_functions.get(move_list[highlighted_bubble-1]+1)
+
+            player = player1 if player_turn == 1 else player2
+
+            for i in range(1, len(input_code())):
+                coords = calculate_direction([input_code()[i][1], input_code()[i][2]], player.direction)
+                pygame.draw.rect(WINDOW, RED, ((player.x + coords[0]) * GRID_SIZE + 50 + 10, (player.y + coords[1]) * GRID_SIZE + 50 + 10, GRID_SIZE - 20, GRID_SIZE - 20), border_radius=10)
+
+            attack_text_surface = GIANT_FONT.render(str(input_code()[0]), True, WHITE)  # Render the text with variable value
 
         # Draw text bubbles
         bubble_positions = [
@@ -454,6 +459,8 @@ def main():
 
         if progress_width <= 0:
             finish_turn()
+
+        WINDOW.blit(attack_text_surface, (-200 + progress_width * 1.5, 240))  # Blit the text surface onto the window
 
         pygame.display.update()
 
