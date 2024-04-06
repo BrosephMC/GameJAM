@@ -22,6 +22,7 @@ player_image = pygame.image.load('images/player.png').convert_alpha()
 player_image = pygame.transform.scale(player_image, (GRID_SIZE, GRID_SIZE))
 opponent_image = pygame.image.load('images/opponent.png').convert_alpha()
 opponent_image = pygame.transform.scale(opponent_image, (GRID_SIZE, GRID_SIZE))
+player_turn = 1
 
 # Player class
 class Player:
@@ -33,6 +34,14 @@ class Player:
         if 0 <= self.x + dx < GRID_WIDTH and 0 <= self.y + dy < GRID_HEIGHT and not (self.x + dx == other_player.x and self.y + dy == other_player.y):
             self.x += dx
             self.y += dy
+            self.finish_turn()
+
+    def finish_turn(self):
+        global player_turn
+        if player_turn == 1:
+            player_turn = 2
+        elif player_turn == 2:
+            player_turn = 1
 
 # Main game loop
 def main():
@@ -52,24 +61,28 @@ def main():
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
+
                 # Player 1 movement with WASD
-                if event.key == pygame.K_a:
-                    player1.move(-move_speed, 0, player2)
-                elif event.key == pygame.K_d:
-                    player1.move(move_speed, 0, player2)
-                elif event.key == pygame.K_w:
-                    player1.move(0, -move_speed, player2)
-                elif event.key == pygame.K_s:
-                    player1.move(0, move_speed, player2)
-                # Player 2 movement with arrow keys
-                elif event.key == pygame.K_LEFT:
-                    player2.move(-move_speed, 0, player1)
-                elif event.key == pygame.K_RIGHT:
-                    player2.move(move_speed, 0, player1)
-                elif event.key == pygame.K_UP:
-                    player2.move(0, -move_speed, player1)
-                elif event.key == pygame.K_DOWN:
-                    player2.move(0, move_speed, player1)
+                if player_turn == 1:
+                    if event.key == pygame.K_a:
+                        player1.move(-move_speed, 0, player2)
+                    elif event.key == pygame.K_d:
+                        player1.move(move_speed, 0, player2)
+                    elif event.key == pygame.K_w:
+                        player1.move(0, -move_speed, player2)
+                    elif event.key == pygame.K_s:
+                        player1.move(0, move_speed, player2)
+
+                elif player_turn == 2:
+                    # Player 2 movement with arrow keys
+                    if event.key == pygame.K_LEFT:
+                        player2.move(-move_speed, 0, player1)
+                    elif event.key == pygame.K_RIGHT:
+                        player2.move(move_speed, 0, player1)
+                    elif event.key == pygame.K_UP:
+                        player2.move(0, -move_speed, player1)
+                    elif event.key == pygame.K_DOWN:
+                        player2.move(0, move_speed, player1)
 
         # Draw background
         WINDOW.fill((255, 255, 255))
@@ -96,6 +109,9 @@ def main():
         timer_text = FONT.render(f"Time: {elapsed_time}s", True, BLACK)
         timer_surface.blit(timer_text, (5, 5))
         WINDOW.blit(timer_surface, (5, 5))  # Position the timer overlay
+
+        text_surface = FONT.render("Player Turn: " + str(player_turn), True, (0, 0, 0))  # Render the text with variable value
+        WINDOW.blit(text_surface, (300, 5))  # Blit the text surface onto the window
 
         pygame.display.update()
 
