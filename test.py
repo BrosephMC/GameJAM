@@ -1,109 +1,72 @@
 import pygame
+import sys
 
 # Initialize Pygame
 pygame.init()
 
-# Screen dimensions
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-
-# Grid dimensions
-GRID_WIDTH = 10
-GRID_HEIGHT = 10
-
-# Cell size
-CELL_SIZE = 50
+# Set up the window
+WIDTH, HEIGHT = 640, 480
+GRID_SIZE = 40
+GRID_WIDTH, GRID_HEIGHT = WIDTH // GRID_SIZE, HEIGHT // GRID_SIZE
+WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Grid Movement Game")
 
 # Colors
 WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-GRAY = (200, 200, 200)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
+BLACK = (0, 0, 0)
 
-# Create the screen
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Two Player Game Grid")
+# Player
+player1_x, player1_y = 0, 0
+player2_x, player2_y = GRID_WIDTH - 1, GRID_HEIGHT - 1
+move_speed = 1  # Number of squares the player moves at a time
 
-# Player positions
-player1_pos = [0, 0]  # Player 1 starting position (top left corner)
-player2_pos = [GRID_WIDTH - 1, GRID_HEIGHT - 1]  # Player 2 starting position (bottom right corner)
-
-# Player movements
-player1_movement = [0, 0]
-player2_movement = [0, 0]
-
-# Main function
+# Main game loop
 def main():
-    # Main loop
+    global player1_x, player1_y, player2_x, player2_y
+
     running = True
+
     while running:
-        # Event handling
+        # Handle events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                pygame.quit()
+                sys.exit()
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_w:
-                    player1_movement[1] = -1
-                elif event.key == pygame.K_s:
-                    player1_movement[1] = 1
-                elif event.key == pygame.K_a:
-                    player1_movement[0] = -1
-                elif event.key == pygame.K_d:
-                    player1_movement[0] = 1
-                elif event.key == pygame.K_UP:
-                    player2_movement[1] = -1
-                elif event.key == pygame.K_DOWN:
-                    player2_movement[1] = 1
-                elif event.key == pygame.K_LEFT:
-                    player2_movement[0] = -1
-                elif event.key == pygame.K_RIGHT:
-                    player2_movement[0] = 1
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_w or event.key == pygame.K_s:
-                    player1_movement[1] = 0
-                elif event.key == pygame.K_a or event.key == pygame.K_d:
-                    player1_movement[0] = 0
-                elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                    player2_movement[1] = 0
-                elif event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                    player2_movement[0] = 0
+                # Player 1 movement with WASD
+                if event.key == pygame.K_a and player1_x > 0:
+                    player1_x -= move_speed
+                elif event.key == pygame.K_d and player1_x < GRID_WIDTH - 1:
+                    player1_x += move_speed
+                elif event.key == pygame.K_w and player1_y > 0:
+                    player1_y -= move_speed
+                elif event.key == pygame.K_s and player1_y < GRID_HEIGHT - 1:
+                    player1_y += move_speed
+                # Player 2 movement with arrow keys
+                elif event.key == pygame.K_LEFT and player2_x > 0:
+                    player2_x -= move_speed
+                elif event.key == pygame.K_RIGHT and player2_x < GRID_WIDTH - 1:
+                    player2_x += move_speed
+                elif event.key == pygame.K_UP and player2_y > 0:
+                    player2_y -= move_speed
+                elif event.key == pygame.K_DOWN and player2_y < GRID_HEIGHT - 1:
+                    player2_y += move_speed
 
-        # Update player positions
-        update_player_position(player1_pos, player1_movement)
-        update_player_position(player2_pos, player2_movement)
+        # Draw grid
+        WINDOW.fill(WHITE)
+        for x in range(0, WIDTH, GRID_SIZE):
+            pygame.draw.line(WINDOW, BLACK, (x, 0), (x, HEIGHT))
+        for y in range(0, HEIGHT, GRID_SIZE):
+            pygame.draw.line(WINDOW, BLACK, (0, y), (WIDTH, y))
 
-        # Draw grid and players
-        screen.fill(WHITE)
-        draw_grid()
-        draw_player(player1_pos, RED)
-        draw_player(player2_pos, BLUE)
+        # Draw players
+        pygame.draw.rect(WINDOW, RED, (player1_x * GRID_SIZE, player1_y * GRID_SIZE, GRID_SIZE, GRID_SIZE))
+        pygame.draw.rect(WINDOW, BLUE, (player2_x * GRID_SIZE, player2_y * GRID_SIZE, GRID_SIZE, GRID_SIZE))
 
-        pygame.display.flip()
+        pygame.display.update()
 
-    pygame.quit()
-
-# Function to draw the grid
-def draw_grid():
-    for x in range(0, SCREEN_WIDTH, CELL_SIZE):
-        pygame.draw.line(screen, GRAY, (x, 0), (x, SCREEN_HEIGHT))
-    for y in range(0, SCREEN_HEIGHT, CELL_SIZE):
-        pygame.draw.line(screen, GRAY, (0, y), (SCREEN_WIDTH, y))
-
-# Function to draw a player
-def draw_player(pos, color):
-    x = pos[0] * CELL_SIZE
-    y = pos[1] * CELL_SIZE
-    pygame.draw.rect(screen, color, (x, y, CELL_SIZE, CELL_SIZE))
-
-# Function to update player position
-def update_player_position(pos, movement):
-    pos[0] += movement[0]
-    pos[1] += movement[1]
-    # Ensure the player does not move beyond the grid boundaries
-    pos[0] = max(0, min(pos[0], GRID_WIDTH - 1))
-    pos[1] = max(0, min(pos[1], GRID_HEIGHT - 1))
-
-# Run the main function
+# Run the game
 if __name__ == "__main__":
     main()
