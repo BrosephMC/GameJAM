@@ -38,9 +38,9 @@ bubble_height = int(50 * 0.9)  # Decreased height by 10%
 bubble_offset = 8  # Reduced offset
 
 # Load player and opponent images
-player_image = pygame.image.load('images/player.png').convert_alpha()
+player_image = pygame.image.load('images/player1.png').convert_alpha()
 player_image = pygame.transform.scale(player_image, (GRID_SIZE, GRID_SIZE))
-opponent_image = pygame.image.load('images/opponent.png').convert_alpha()
+opponent_image = pygame.image.load('images/player2.png').convert_alpha()
 opponent_image = pygame.transform.scale(opponent_image, (GRID_SIZE, GRID_SIZE))
 
 # Global variables
