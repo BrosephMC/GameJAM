@@ -5,26 +5,23 @@ import sys
 pygame.init()
 
 # Set up the window
-WIDTH, HEIGHT = 640, 480
-GRID_SIZE = 40
+WIDTH, HEIGHT = 700, 500
+GRID_SIZE = 100
 GRID_WIDTH, GRID_HEIGHT = WIDTH // GRID_SIZE, HEIGHT // GRID_SIZE
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Grid Movement Game")
 
-# Colors
-WHITE = (255, 255, 255)
-RED = (255, 0, 0)
-BLUE = (0, 0, 255)
-BLACK = (0, 0, 0)
-
-# Player
-player1_x, player1_y = 0, 0
-player2_x, player2_y = GRID_WIDTH - 1, GRID_HEIGHT - 1
-move_speed = 1  # Number of squares the player moves at a time
+# Load player and opponent images
+player_image = pygame.image.load('images/player.png').convert_alpha()
+player_image = pygame.transform.scale(player_image, (GRID_SIZE, GRID_SIZE))
+opponent_image = pygame.image.load('images/opponent.png').convert_alpha()
+opponent_image = pygame.transform.scale(opponent_image, (GRID_SIZE, GRID_SIZE))
 
 # Main game loop
 def main():
-    global player1_x, player1_y, player2_x, player2_y
+    player1_x, player1_y = 0, 0
+    player2_x, player2_y = GRID_WIDTH - 1, GRID_HEIGHT - 1
+    move_speed = 1  # Number of squares the player moves at a time
 
     running = True
 
@@ -55,15 +52,15 @@ def main():
                     player2_y += move_speed
 
         # Draw grid
-        WINDOW.fill(WHITE)
+        WINDOW.fill((255, 255, 255))
         for x in range(0, WIDTH, GRID_SIZE):
-            pygame.draw.line(WINDOW, BLACK, (x, 0), (x, HEIGHT))
+            pygame.draw.line(WINDOW, (0, 0, 0), (x, 0), (x, HEIGHT))
         for y in range(0, HEIGHT, GRID_SIZE):
-            pygame.draw.line(WINDOW, BLACK, (0, y), (WIDTH, y))
+            pygame.draw.line(WINDOW, (0, 0, 0), (0, y), (WIDTH, y))
 
         # Draw players
-        pygame.draw.rect(WINDOW, RED, (player1_x * GRID_SIZE, player1_y * GRID_SIZE, GRID_SIZE, GRID_SIZE))
-        pygame.draw.rect(WINDOW, BLUE, (player2_x * GRID_SIZE, player2_y * GRID_SIZE, GRID_SIZE, GRID_SIZE))
+        WINDOW.blit(player_image, (player1_x * GRID_SIZE, player1_y * GRID_SIZE))
+        WINDOW.blit(opponent_image, (player2_x * GRID_SIZE, player2_y * GRID_SIZE))
 
         pygame.display.update()
 
