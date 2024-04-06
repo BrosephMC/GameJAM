@@ -147,6 +147,9 @@ def main():
         # WINDOW.fill(WHITE)
         WINDOW.blit(background_image, (0, 0))
         
+        #insert stage background
+        
+        
         # Draw grid border
         #pygame.draw.rect(WINDOW, DARKRED, (0, 0, GRID_WIDTH * GRID_SIZE + 120, GRID_HEIGHT * GRID_SIZE + 100), 50)
         #pygame.draw.rect(WINDOW, RED, (20, 20, GRID_WIDTH * GRID_SIZE + 60, GRID_HEIGHT * GRID_SIZE + 60), 10)
