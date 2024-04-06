@@ -505,8 +505,8 @@ def main():
         pygame.draw.rect(WINDOW, YELLOW, (150, HEIGHT-50, (time_multiplier-1)*200, 10), border_radius = 10)
 
         # Attack Multiplier
-        WINDOW.blit(FONT.render("x" + str(player1.attack_multiplier), True, WHITE), (10, HEIGHT - 135))
-        WINDOW.blit(FONT.render("x" + str(player2.attack_multiplier), True, WHITE), (460, HEIGHT - 135))
+        WINDOW.blit(FONT.render("x" + str(round(player1.attack_multiplier, 3)), True, BLACK), (30, HEIGHT - 135))
+        WINDOW.blit(FONT.render("x" + str(round(player2.attack_multiplier, 3)), True, BLACK), (420, HEIGHT - 135))
 
         # Attack text
         WINDOW.blit(attack_text_surface, (-200 + progress_width * 1.5, 240))
