@@ -254,6 +254,9 @@ class Player:
 
     def health_change(self, x):
         self.health += x
+        
+    def shake_camera():
+        return (random.randint(-5, 5), random.randint(-5, 5))
 
     def attack(self, other_player, input_code, time_multiplier):
         global turn_state, start_time
