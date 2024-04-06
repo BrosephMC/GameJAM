@@ -66,10 +66,8 @@ opponent_images = [pygame.transform.rotate(opponent_image, angle) for angle in (
 
 #=============================================================================================
 
-
 def generate_random_number():
     return random.randint(0, 100)
-
 
 def handle_random_outcome(random_number):
     # Get the function associated with the random number and call it
@@ -78,8 +76,6 @@ def handle_random_outcome(random_number):
         outcome_function()
     else:
         print("Invalid random number:", random_number)
-
-
 
 def fire_ball():
     print("Outcome 1")
@@ -236,6 +232,7 @@ outcome_functions = {
     38: fleshy
 }
 
+#==========================================================
 
 # Player class
 class Player:
@@ -330,7 +327,6 @@ def main():
         #==============================================================
 
         # Draw background
-        # WINDOW.fill(WHITE)
         WINDOW.blit(background_image, (0, 0))
         
         #insert stage background
@@ -368,11 +364,6 @@ def main():
             text_surface = font.render("ASDW"[i], True, BLACK)  # Render the text with variable value
             text_rect = text_surface.get_rect(center=(x + bubble_width // 2, y + bubble_height // 2))
             WINDOW.blit(text_surface, text_rect)
-
-        
-        #clock
-        # Calculate elapsed time
-        elapsed_time = (pygame.time.get_ticks() - start_time) // 1000  # Convert milliseconds to seconds
 
         if player_turn == 1:
             WINDOW.blit(one_image, (450, 5))
