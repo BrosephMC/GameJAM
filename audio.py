@@ -13,6 +13,8 @@ pygame.display.set_caption("Audio Playback Example")
 pygame.mixer.music.load("audio/punch.mp3")
 
 # Play the audio
+pygame.mixer.music.load("audio/can.mp3")
+
 pygame.mixer.music.play()
 
 # Main loop to keep the program running
