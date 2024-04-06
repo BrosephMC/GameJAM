@@ -70,7 +70,7 @@ opponent_images = [pygame.transform.rotate(opponent_image, angle) for angle in (
 
 def generate_random_number():
     # return random.randint(0, 37)
-    return 1
+    return 19
 
 def handle_random_outcome(player, other_player, random_number):
 
@@ -81,39 +81,39 @@ def handle_random_outcome(player, other_player, random_number):
         print("Invalid random number:", random_number)
 
 def fire_ball():
-    return ["fire ball", [-20, 0, 1]]
+    return ["fire ball", [-5, 0, 1], [-10, 0, 2], [-15, 0, 3], [-20, 0, 4], [-15, 1, 4], [-15, 0, 5], [-15, -1, 4]]
     
 def punch():
     #print("punch")
     #[damage, left, forward]
-    return ["punch", [-20, 0, 1], [-20, 0, 2]]
+    return ["punch", [-5, 0, 1]]
     
 def bishop():
-    print("bishop")
+    return ["bishop", [-10, 1, 1], [-10, 2, 2],  [-10, 3, 3], [-10, -1, 1], [-10, -2, 2],  [-10, -3, 3]]
 
 def energy_drink():
     print("energy_drink")
 
 def smelly():
-    print("smelly")
+    return ["smelly", [-10, 0, 1], [-10, 1, 1], [-10, 1, 0], [-10, -1, 1], [-10, 1, -1], [-10, -1, -1], [-10, -1, 0], [-10, 0, -1]]
 
 def acid_rain():
     print("acid_rain")
 
 def gun():
-    print("gun")
+    return ["gun", [-20, 0, 1], [-20, 0, 2], [-20, 0, 3], [-20, 0, 4], [-20, 0, 5], [-20, 0, 6]]
 
 def zoom():
     print("zoom")
 
 def cleave():
-    print("cleave")
+    return ["cleave", [-12, 0, 1, ], [-12, 1, 1, ], [-12, -1, 1, ]]
 
 def arm_day():
     print("arm_day")
 
 def prayer():
-    print("prayer")
+    return ["punch", [-20, 0, 1]]
 
 def souls_like():
     print("souls_like")
@@ -125,7 +125,7 @@ def cocaine():
     print("cocaine")
 
 def flame_thrower():
-    print("flame_thrower")
+    return ["flame thrower", [-10, 0, 1, ], [-10, 1, 1, ], [-10, -1, 1, ], [-10, 0, 2, ], [-10, 1, 2, ], [-10, -1, 2, ]]
 
 def taco_bell():
     print("taco_bell")
@@ -134,22 +134,22 @@ def home_cookin():
     print("home_cookin")
 
 def greneade():
-    print("greneade")
+    return ["grenade", [-15, 0, 2, ], [-15, 1, 2, ], [-15, -1, 2, ], [-15, 0, 3, ], [-15, 1, 3, ], [-15, -1, 3, ], [-15, 0, 4], [-15, 1, 4], [-15, -1, 4]]
 
 def wario_steam():
     print("wario_steam")
 
 def tipper():
-    print("tipper")
+    return ["tipper", [-5, 0, 1], [-20, 0, 2]]
     
 def bair():
-    print("bair")
+    return ["bair", [-15, 0, -1]]
 
 def cannible():
     print("cannible")
 
 def split_kick():
-    print("split_kick")
+    return ["split kick", [-12, 1, 0], [-12, -1, 0]]
 
 def blue_shirt():
     print("blue_shirt")
