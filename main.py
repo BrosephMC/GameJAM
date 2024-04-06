@@ -71,7 +71,7 @@ opponent_images = [pygame.transform.rotate(opponent_image, angle) for angle in (
 
 def generate_random_number():
     # return random.randint(0, 37)
-    return 7
+    return 21
 
 def handle_random_outcome(player, other_player, random_number):
     global time_multiplier
@@ -150,7 +150,7 @@ def bair():
     return ["bair", [-15, 0, -1]]
 
 def cannibal():
-    print("cannibal")
+    return ["cannibal", [-15, 0, 1], [15, 0, 0]]
 
 def split_kick():
     return ["split kick", [-12, 1, 0], [-12, -1, 0]]
