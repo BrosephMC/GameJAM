@@ -240,6 +240,12 @@ outcome_functions = {
     38: fleshy
 }
 
+sounds = []
+
+for i in range(len(outcome_functions)):
+    sounds[i] = pygame.mixer.Sound("audio/"+str(outcome_functions.get(i+1).__name__)+".mp3")
+    print("audio/"+str(outcome_functions.get(i+1).__name__)+".mp3")
+
 #==========================================================
 
 # Player class
@@ -315,6 +321,8 @@ class Player:
             self.y = other_player.y + calculate_direction([0, 1], other_player.direction)[1]
 
         for i in range(1, len(input_code)):
+            global sounds
+            sounds[i].play()
             coords = calculate_direction([input_code[i][1], input_code[i][2]], self.direction)
             if self.x + coords[0] == other_player.x and self.y + coords[1] == other_player.y:
                 other_player.health_change(input_code[i][0] * time_multiplier * self.attack_multiplier)
