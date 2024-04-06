@@ -51,6 +51,7 @@ start_time = 0  # sets to real start time when game starts
 move_speed = 1  # Number of squares the player moves at a time
 highlighted_bubble = None
 move_list = []
+time_multiplier = 0
 
 # Load player number images
 one_image = pygame.image.load('images/1.png').convert_alpha()
@@ -73,10 +74,11 @@ def generate_random_number():
     return 19
 
 def handle_random_outcome(player, other_player, random_number):
+    global time_multiplier
 
     outcome_function = outcome_functions.get(random_number+1)
     if outcome_function:
-        player.attack(other_player, outcome_function(), 1)
+        player.attack(other_player, outcome_function(), time_multiplier)
     else:
         print("Invalid random number:", random_number)
 
@@ -341,7 +343,7 @@ def main():
     player1 = Player(0, 0)
     player2 = Player(GRID_WIDTH - 1, GRID_HEIGHT - 1)
 
-    global start_time, turn_state, player_turn, highlighted_bubble, move_list
+    global start_time, turn_state, player_turn, highlighted_bubble, move_list, time_multiplier
     start_time = pygame.time.get_ticks()  # Get the time when the program starts
     for i in range(4):
         move_list.append(generate_random_number())
@@ -460,7 +462,18 @@ def main():
         if progress_width <= 0:
             finish_turn()
 
-        WINDOW.blit(attack_text_surface, (-200 + progress_width * 1.5, 240))  # Blit the text surface onto the window
+        # Time multiplier
+        if turn_state == 0:
+            time_multiplier = (((time_window - elapsed_time) / time_window) ** 4) + 1
+
+        #WINDOW.blit(FONT.render("Time Multiplier: " + str(round(time_multiplier, 3)), True, WHITE), (200, HEIGHT - 50))
+        WINDOW.blit(FONT.render("x2", True, WHITE), (360, HEIGHT - 55))
+        WINDOW.blit(FONT.render("x1", True, WHITE), (120, HEIGHT - 55))
+        pygame.draw.rect(WINDOW, WHITE, (150, HEIGHT-50, 200, 10), border_radius = 10)
+        pygame.draw.rect(WINDOW, YELLOW, (150, HEIGHT-50, (time_multiplier-1)*200, 10), border_radius = 10)
+
+        # Attack text
+        WINDOW.blit(attack_text_surface, (-200 + progress_width * 1.5, 240))
 
         pygame.display.update()
 
