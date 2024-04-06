@@ -49,6 +49,7 @@ turn_state = 0  # 0 - Idle | 1 - Attack | 2 - Rotate (first) | 3 - Move (second 
 start_time = 0  # sets to real start time when game starts
 move_speed = 1  # Number of squares the player moves at a time
 highlighted_bubble = None
+move_list = []
 
 # Load player number images
 one_image = pygame.image.load('images/1.png').convert_alpha()
@@ -66,134 +67,133 @@ opponent_images = [pygame.transform.rotate(opponent_image, angle) for angle in (
 
 #=============================================================================================
 
-
 def generate_random_number():
-    return random.randint(0, 100)
+    # return random.randint(0, 37)
+    return 1
 
+def handle_random_outcome(player, other_player, random_number):
 
-def handle_random_outcome(random_number):
-    # Get the function associated with the random number and call it
-    outcome_function = outcome_functions.get(random_number)
+    outcome_function = outcome_functions.get(random_number+1)
     if outcome_function:
-        outcome_function()
+        player.attack(other_player, outcome_function(), 1)
     else:
         print("Invalid random number:", random_number)
 
-
-
 def fire_ball():
-    print("Outcome 1")
-
+    print("fire_ball")
+    
 def punch():
-    print("Outcome 2")
+    print("punch")
+    #[damage, left, forward]
+    return ["punch", [-20, 0, 1]]
     
 def bishop():
-    print("Outcome 1")
+    print("bishop")
 
 def energy_drink():
-    print("Outcome 2")
+    print("energy_drink")
 
 def smelly():
-    print("Outcome 1")
+    print("smelly")
 
 def acid_rain():
-    print("Outcome 2")
+    print("acid_rain")
 
 def gun():
-    print("Outcome 1")
+    print("gun")
 
 def zoom():
-    print("Outcome 2")
+    print("zoom")
 
 def cleave():
-    print("Outcome 1")
+    print("cleave")
 
 def arm_day():
-    print("Outcome 2")
+    print("arm_day")
 
 def prayer():
-    print("Outcome 1")
+    print("prayer")
 
 def souls_like():
-    print("Outcome 2")
+    print("souls_like")
 
 def backflip():
-    print("Outcome 1")
+    print("backflip")
 
 def cocaine():
-    print("Outcome 2")
+    print("cocaine")
 
 def flame_thrower():
-    print("Outcome 1")
+    print("flame_thrower")
 
 def taco_bell():
-    print("Outcome 2")
+    print("taco_bell")
 
 def home_cookin():
-    print("Outcome 1")
+    print("home_cookin")
 
 def greneade():
-    print("Outcome 2")
+    print("greneade")
 
 def wario_steam():
-    print("Outcome 1")
+    print("wario_steam")
 
 def tipper():
-    print("Outcome 2")
+    print("tipper")
     
 def bair():
-    print("Outcome 1")
+    print("bair")
 
 def cannible():
-    print("Outcome 2")
+    print("cannible")
 
 def split_kick():
-    print("Outcome 1")
+    print("split_kick")
 
 def blue_shirt():
-    print("Outcome 2")
+    print("blue_shirt")
 
 def red_shirt():
-    print("Outcome 1")
+    print("red_shirt")
 
 def broke():
-    print("Outcome 2")
+    print("broke")
 
 def paper_cut():
-    print("Outcome 1")
+    print("paper_cut")
 
 def dehydrated():
-    print("Outcome 2")
+    print("dehydrated")
 
 def need_a_hand():
-    print("Outcome 1")
+    print("need_a_hand")
 
 def lazy():
-    print("Outcome 2")
+    print("lazy")
 
 def kaklanck():
-    print("Outcome 1")
+    print("kaklanck")
 
 def charm():
-    print("Outcome 2")
+    print("charm")
 
 def kind_hearted():
-    print("Outcome 1")
+    print("kind_hearted")
 
 def but_y():
-    print("Outcome 2")
+    print("but_y")
 
 def band_member():
-    print("Outcome 1")
+    print("band_member")
 
 def scared():
-    print("Outcome 2")
+    print("scared")
 
 def dizzy():
-    print("Outcome 2")
+    print("dizzy")
 
 def fleshy():
-    print("Outcome 38")
+    print("fleshy")
 
 outcome_functions = {
     1: fire_ball,
@@ -236,6 +236,7 @@ outcome_functions = {
     38: fleshy
 }
 
+#==========================================================
 
 # Player class
 class Player:
@@ -243,6 +244,21 @@ class Player:
         self.x = x
         self.y = y
         self.direction = 0
+        self.health = 100
+        self.attack_multiplier = 1
+
+    def health_change(self, x):
+        self.health += x
+
+    def attack(self, other_player, input_code, time_multiplier):
+        global turn_state, start_time
+        turn_state = 1
+        start_time = pygame.time.get_ticks()
+
+        for i in range(1, len(input_code)):
+            coords = calculate_direction([input_code[i][1], input_code[i][2]], self.direction)
+            if self.x + coords[0] == other_player.x and self.y + coords[1] == other_player.y:
+                other_player.health_change(input_code[i][0] * time_multiplier)
 
     def set_rotation(self, dx, dy):
         if dx > 0:
@@ -276,6 +292,19 @@ def finish_turn():
     turn_state = 0
     start_time = pygame.time.get_ticks()
 
+    for i in range(4):
+        move_list[i] = generate_random_number()
+
+def calculate_direction(pair, direction):
+    if direction == 0:
+        return [-pair[0], pair[1]]
+    elif direction == 1:
+        return [pair[1], pair[0]]
+    elif direction == 2:
+        return [pair[0], -pair[1]]
+    elif direction == 3:
+        return [-pair[1], -pair[0]]
+
 #======================================================================
 
 def player_control(key, player, other_player, left_key, right_key, up_key, down_key, move_key):
@@ -290,14 +319,19 @@ def player_control(key, player, other_player, left_key, right_key, up_key, down_
     elif key == down_key and pygame.key.get_mods() & move_key:
         player.move(0, move_speed, other_player)
 
-    elif key == left_key and turn_state == 0:
-        highlighted_bubble = 1
-    elif key == right_key and turn_state == 0:
-        highlighted_bubble = 3
-    elif key == up_key and turn_state == 0:
-        highlighted_bubble = 4
-    elif key == down_key and turn_state == 0:
-        highlighted_bubble = 2
+    elif turn_state == 0:
+        if key == left_key:
+            highlighted_bubble = 1
+            handle_random_outcome(player, other_player, move_list[0])
+        elif key == right_key:
+            highlighted_bubble = 3
+            handle_random_outcome(player, other_player, move_list[2])
+        elif key == up_key:
+            highlighted_bubble = 4
+            handle_random_outcome(player, other_player, move_list[3])
+        elif key == down_key:
+            highlighted_bubble = 2
+            handle_random_outcome(player, other_player, move_list[1])
 
 #====================================================================
 
@@ -306,8 +340,10 @@ def main():
     player1 = Player(0, 0)
     player2 = Player(GRID_WIDTH - 1, GRID_HEIGHT - 1)
 
-    global start_time, turn_state, player_turn, high
+    global start_time, turn_state, player_turn, highlighted_bubble, move_list
     start_time = pygame.time.get_ticks()  # Get the time when the program starts
+    for i in range(4):
+        move_list.append(generate_random_number())
     
     running = True
 
@@ -330,7 +366,6 @@ def main():
         #==============================================================
 
         # Draw background
-        # WINDOW.fill(WHITE)
         WINDOW.blit(background_image, (0, 0))
         
         #insert stage background
@@ -365,14 +400,9 @@ def main():
                 pygame.draw.rect(WINDOW, GREY, (x, y, bubble_width, bubble_height), border_radius=20)
 
             # Draw text
-            text_surface = font.render("ASDW"[i], True, BLACK)  # Render the text with variable value
+            text_surface = font.render(list(outcome_functions.items())[move_list[i]][1].__name__, True, BLACK)  # Render the text with variable value
             text_rect = text_surface.get_rect(center=(x + bubble_width // 2, y + bubble_height // 2))
             WINDOW.blit(text_surface, text_rect)
-
-        
-        #clock
-        # Calculate elapsed time
-        elapsed_time = (pygame.time.get_ticks() - start_time) // 1000  # Convert milliseconds to seconds
 
         if player_turn == 1:
             WINDOW.blit(one_image, (450, 5))
@@ -391,10 +421,13 @@ def main():
         WINDOW.blit(text_surface, (300, 10))  # Blit the text surface onto the window
 
         # Progress Bar
-        if turn_state != 2:
+        if turn_state == 0:
             time_window = 5 * 1000
             progress_bar_color = GREEN
-        else:
+        elif turn_state == 1:
+            time_window = 1 * 1000
+            progress_bar_color = RED
+        elif turn_state == 2:
             time_window = 1 * 1000
             progress_bar_color = BLUE
             
