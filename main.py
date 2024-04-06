@@ -156,7 +156,7 @@ def split_kick():
     return ["split kick", [-12, 1, 0], [-12, -1, 0]]
 
 def blue_shirt():
-    print("blue shirt")
+    return["blue_shirt"]
 
 def red_shirt():
     print("red_shirt")
@@ -263,7 +263,7 @@ class Player:
         #Special cases
         if input_code[0] == "zoom":
             self.x = random.randint(0, GRID_WIDTH-1)
-            self.y = random.randint(0, GRID_HEIGHT-1)
+            self.y = random.randint(0, GRID_HEIGHT-1)            
 
         for i in range(1, len(input_code)):
             coords = calculate_direction([input_code[i][1], input_code[i][2]], self.direction)
