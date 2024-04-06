@@ -67,7 +67,7 @@ opponent_images = [pygame.transform.rotate(opponent_image, angle) for angle in (
 #=============================================================================================
 
 def generate_random_number():
-    return random.randint(0, 100)
+    return random.randint(0, 37)
 
 def handle_random_outcome(random_number):
     # Get the function associated with the random number and call it
@@ -361,7 +361,7 @@ def main():
                 pygame.draw.rect(WINDOW, GREY, (x, y, bubble_width, bubble_height), border_radius=20)
 
             # Draw text
-            text_surface = font.render("ASDW"[i], True, BLACK)  # Render the text with variable value
+            text_surface = font.render(list(outcome_functions.items())[generate_random_number()][1].__name__, True, BLACK)  # Render the text with variable value
             text_rect = text_surface.get_rect(center=(x + bubble_width // 2, y + bubble_height // 2))
             WINDOW.blit(text_surface, text_rect)
 
