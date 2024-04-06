@@ -83,7 +83,7 @@ def fire_ball():
     print("fire_ball")
     
 def punch():
-    print("punch")
+    #print("punch")
     #[damage, left, forward]
     return ["punch", [-20, 0, 1]]
     
@@ -375,8 +375,13 @@ def main():
         pygame.draw.rect(WINDOW, GRAY, (50, 50, GRID_WIDTH * GRID_SIZE, GRID_HEIGHT * GRID_SIZE), BORDER_SIZE)
 
         if highlighted_bubble and turn_state == 1:
-            attack_id = outcome_functions.get(move_list[highlighted_bubble-1]+1)
-            pygame.draw.rect(WINDOW, RED, (3 * GRID_SIZE + 50 + 10, 3 * GRID_SIZE + 50 + 10, GRID_SIZE - 20, GRID_SIZE - 20), border_radius=10)
+            input_code = outcome_functions.get(move_list[highlighted_bubble-1]+1)
+
+            player = player1 if player_turn == 1 else player2
+
+            for i in range(1, len(input_code())):
+                coords = calculate_direction([input_code()[i][1], input_code()[i][2]], player.direction)
+                pygame.draw.rect(WINDOW, RED, ((player.x + coords[0]) * GRID_SIZE + 50 + 10, (player.y + coords[1]) * GRID_SIZE + 50 + 10, GRID_SIZE - 20, GRID_SIZE - 20), border_radius=10)
 
         # Draw grid
         for x in range(50 + GRID_SIZE, 50 + GRID_WIDTH * GRID_SIZE, GRID_SIZE):
@@ -429,7 +434,7 @@ def main():
             time_window = 5 * 1000
             progress_bar_color = GREEN
         elif turn_state == 1:
-            time_window = 1 * 1000
+            time_window = 1.5 * 1000
             progress_bar_color = RED
         elif turn_state == 2:
             time_window = 1 * 1000
