@@ -20,12 +20,19 @@ background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 DARKRED = (144, 11, 10)
+GRAY = (200, 200, 200)
 RED = (212, 14, 0)
 ORANGE = (212, 106, 0)
 YELLOW = (212, 187, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 100, 255)
 FONT = pygame.font.SysFont(None, 30)
+font = pygame.font.Font(None, 20)  # Adjusted font size
+
+# Bubble properties
+bubble_width = int(100 * 0.9)  # Decreased width by 10%
+bubble_height = int(50 * 0.9)  # Decreased height by 10%
+bubble_offset = 8  # Reduced offset
 
 # Load player and opponent images
 player_image = pygame.image.load('images/player.png').convert_alpha()
@@ -95,6 +102,7 @@ def main():
     start_time = pygame.time.get_ticks()  # Get the time when the program starts
     
     running = True
+    highlighted_bubble = None
 
     while running:
 
@@ -109,23 +117,31 @@ def main():
                 if player_turn == 1:
                     if event.key == pygame.K_a:
                         player1.move(-move_speed, 0, player2)
+                        highlighted_bubble = 1
                     elif event.key == pygame.K_d:
                         player1.move(move_speed, 0, player2)
+                        highlighted_bubble = 3
                     elif event.key == pygame.K_w:
                         player1.move(0, -move_speed, player2)
+                        highlighted_bubble = 4
                     elif event.key == pygame.K_s:
                         player1.move(0, move_speed, player2)
+                        highlighted_bubble = 2
 
                 elif player_turn == 2:
                     # Player 2 movement with arrow keys
                     if event.key == pygame.K_LEFT:
                         player2.move(-move_speed, 0, player1)
+                        highlighted_bubble = 1
                     elif event.key == pygame.K_RIGHT:
                         player2.move(move_speed, 0, player1)
+                        highlighted_bubble = 3
                     elif event.key == pygame.K_UP:
                         player2.move(0, -move_speed, player1)
+                        highlighted_bubble = 4
                     elif event.key == pygame.K_DOWN:
                         player2.move(0, move_speed, player1)
+                        highlighted_bubble = 2
 
         # Draw background
         # WINDOW.fill(WHITE)
@@ -153,6 +169,26 @@ def main():
         # Draw players with rotation
         WINDOW.blit(player_images[player1.direction], (player1.x * GRID_SIZE + 50, player1.y * GRID_SIZE + 50))
         WINDOW.blit(opponent_images[player2.direction], (player2.x * GRID_SIZE + 50, player2.y * GRID_SIZE + 50))
+
+        # Draw text bubbles
+        bubble_positions = [
+            (50 + GRID_WIDTH * GRID_SIZE // 4 - bubble_width // 2, HEIGHT - 50 - bubble_height - 20), # A bubble
+            (50 + 2 * GRID_WIDTH * GRID_SIZE // 4 - bubble_width // 2, HEIGHT - 50 - bubble_height - 20), # W bubble
+            (50 + 3 * GRID_WIDTH * GRID_SIZE // 4 - bubble_width // 2, HEIGHT - 50 - bubble_height - 20), # S bubble
+            (50 + GRID_WIDTH * GRID_SIZE // 2 - bubble_width // 2, HEIGHT - 50 - 2 * bubble_height - 40), # D bubble
+        ]
+
+        for i, (x, y) in enumerate(bubble_positions):
+            # Check if bubble should be highlighted
+            if i + 1 == highlighted_bubble:
+                pygame.draw.rect(WINDOW, RED, (x, y, bubble_width, bubble_height), border_radius=20)
+            else:
+                pygame.draw.rect(WINDOW, GRAY, (x, y, bubble_width, bubble_height), border_radius=20)
+
+            # Draw text
+            text_surface = font.render("ASDW"[i], True, BLACK)  # Render the text with variable value
+            text_rect = text_surface.get_rect(center=(x + bubble_width // 2, y + bubble_height // 2))
+            WINDOW.blit(text_surface, text_rect)
 
         #clock
         #####RESETS WHEN PLAYER ENDS TURN
