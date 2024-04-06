@@ -112,7 +112,7 @@ def cleave():
     return ["cleave", [-12, 0, 1, ], [-12, 1, 1, ], [-12, -1, 1, ]]
 
 def arm_day():
-    print("arm_day")
+    return ["arm day"]
 
 def prayer():
     return ["prayer", [15, 0, 0], [15, 0, 1], [15, 1, 1], [15, 1, 0], [15, -1, 1], [15, 1, -1], [15, -1, -1], [15, -1, 0], [15, 0, -1]]
