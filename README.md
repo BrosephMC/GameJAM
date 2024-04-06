@@ -21,7 +21,7 @@ good move list
 10-- flame thower(3,2 tiles)
 -- taco bell(heal slightly)
 -- home cookin(heal full)
-15-- greneade(000[])
+15-- grenade(000[])
 -- wario steam(push oppenent 2 tiles away)
 5-15-- tipper(weak damage 1 tile away strong damage 2 tiles away)
 8-- bair(attack tile behind but stronger than punch)
