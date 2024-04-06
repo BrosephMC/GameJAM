@@ -374,6 +374,10 @@ def main():
         # Draw grid border
         pygame.draw.rect(WINDOW, GRAY, (50, 50, GRID_WIDTH * GRID_SIZE, GRID_HEIGHT * GRID_SIZE), BORDER_SIZE)
 
+        if highlighted_bubble and turn_state == 1:
+            attack_id = outcome_functions.get(move_list[highlighted_bubble-1]+1)
+            pygame.draw.rect(WINDOW, RED, (3 * GRID_SIZE + 50 + 10, 3 * GRID_SIZE + 50 + 10, GRID_SIZE - 20, GRID_SIZE - 20), border_radius=10)
+
         # Draw grid
         for x in range(50 + GRID_SIZE, 50 + GRID_WIDTH * GRID_SIZE, GRID_SIZE):
             pygame.draw.line(WINDOW, GRAY, (x, 50), (x, 50 + GRID_HEIGHT * GRID_SIZE - 1), BORDER_SIZE)
