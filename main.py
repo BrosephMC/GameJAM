@@ -189,7 +189,7 @@ def but_y():
     print("but_y")
 
 def band_member():
-    print("band_member")
+    return ["band member", [-12, 0, 0]]
 
 def scared():
     print("scared")
