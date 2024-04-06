@@ -2,6 +2,9 @@ import pygame
 import sys
 import random
 
+#from pydub import AudioSegment
+#from pydub.playback import play
+
 # Initialize Pygame
 pygame.init()
 
@@ -240,12 +243,16 @@ outcome_functions = {
     38: fleshy
 }
 
-sounds = []
+#sounds = ["audio/fire_ball.mp3", "audio/punch.mp3","audio/bishop.mp3","audio/energy_drink.mp3","audio/smelly.mp3","audio/acid_rain.mp3","audio/gun.mp3","audio/zoom.mp3","audio/cleave.mp3","audio/arm_day.mp3","audio/prayer.mp3","audio/souls_like.mp3","audio/backflip.mp3","audio/cocaine.mp3","audio/flame_thrower.mp3","audio/taco_bell.mp3","audio/home_cookin.mp3","audio/grenade.mp3","audio/wario_steam.mp3","audio/tipper.mp3","audio/bair.mp3","audio/cannibal.mp3","audio/split_kick.mp3","audio/blue_shirt.mp3","audio/red_shirt.mp3","audio/broke.mp3","audio/paper_cut.mp3","audio/dehydrated.mp3","audio/need_a_hand.mp3","audio/lazy.mp3","audio/grapple.mp3","audio/charm.mp3","audio/kind_hearted.mp3","audio/but_y.mp3","audio/band_member.mp3","audio/scared.mp3","audio/dizzy.mp3","audio/fleshy.mp3"]
 
-for i in range(len(outcome_functions)):
-    sounds[i] = pygame.mixer.Sound("audio/"+str(outcome_functions.get(i+1).__name__)+".mp3")
-    print("audio/"+str(outcome_functions.get(i+1).__name__)+".mp3")
-
+# for i in range(len(outcome_functions)):
+#     print("audio/"+str(outcome_functions.get(i+1).__name__)+".mp3")
+#     try:
+#         sounds.append(pygame.mixer.Sound("audio/"+str(outcome_functions.get(i+1).__name__)+".mp3"))
+#         print("success")
+#     except:
+#         sounds.append(pygame.mixer.Sound("audio/punch.mp3"))
+    
 #==========================================================
 
 # Player class
@@ -320,9 +327,15 @@ class Player:
             self.x = other_player.x + calculate_direction([0, 1], other_player.direction)[0]
             self.y = other_player.y + calculate_direction([0, 1], other_player.direction)[1]
 
+        #global sounds
+        # pygame.mixer.Sound(sounds[0]).play()
+        # pygame.mixer.Sound(sounds[0]).play()
+        #pygame.mixer.Sound("audio/split_kick.m4a", format="m4a").play()
+        #pygame.mixer.music.load("audio/fire_ball.m4a")
+        #pygame.mixer.music.play()
+        #play(AudioSegment.from_file("audio/punch.mp3", format="mp3"))
+
         for i in range(1, len(input_code)):
-            global sounds
-            sounds[i].play()
             coords = calculate_direction([input_code[i][1], input_code[i][2]], self.direction)
             if self.x + coords[0] == other_player.x and self.y + coords[1] == other_player.y:
                 other_player.health_change(input_code[i][0] * time_multiplier * self.attack_multiplier)
