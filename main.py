@@ -71,7 +71,7 @@ opponent_images = [pygame.transform.rotate(opponent_image, angle) for angle in (
 
 def generate_random_number():
     return random.randint(0, 37)
-    #return 9
+    #return 32-1
 
 def handle_random_outcome(player, other_player, random_number):
     global time_multiplier
@@ -94,13 +94,13 @@ def bishop():
     return ["bishop", [-10, 1, 1], [-10, 2, 2],  [-10, 3, 3], [-10, -1, 1], [-10, -2, 2],  [-10, -3, 3]]
 
 def energy_drink():
-    print("energy_drink")
+    return ["energy drink"]
 
 def smelly():
     return ["smelly", [-10, 0, 1], [-10, 1, 1], [-10, 1, 0], [-10, -1, 1], [-10, 1, -1], [-10, -1, -1], [-10, -1, 0], [-10, 0, -1]]
 
 def acid_rain():
-    print("acid_rain")
+    return ["acid rain"]
 
 def gun():
     return ["gun", [-20, 0, 1], [-20, 0, 2], [-20, 0, 3], [-20, 0, 4], [-20, 0, 5], [-20, 0, 6]]
@@ -118,7 +118,7 @@ def prayer():
     return ["prayer", [15, 0, 0], [15, 0, 1], [15, 1, 1], [15, 1, 0], [15, -1, 1], [15, 1, -1], [15, -1, -1], [15, -1, 0], [15, 0, -1]]
 
 def souls_like():
-    print("souls_like")
+    return ["souls like"]
 
 def backflip():
     return ["backflip", [-10, 0, -1]]
@@ -158,28 +158,28 @@ def blue_shirt():
     return["blue_shirt"]
 
 def red_shirt():
-    print("red_shirt")
+    return["red shirt"]
 
 def broke():
-    print("broke")
+    return["lol no money", [-1, 0, 0]]
 
 def paper_cut():
-    print("paper_cut")
+    return["paper cut", [-10, 0, 0]]
 
 def dehydrated():
-    return ["dehydrated", [-10, 0, 0]]
+    return ["dehydrated", [-20, 0, 0]]
 
 def need_a_hand():
     return ["need a hand", [-10, 0, 1], [-10, 0, 2]]
 
 def lazy():
-    print("lazy")
+    exit()
 
-def kaklanck():
-    print("kaklanck")
+def grapple():
+    return ["grapple"]
 
 def charm():
-    return["charm", []]
+    return["charm"]
 
 def kind_hearted():
      return["kind hearted"]
@@ -188,13 +188,13 @@ def but_y():
     return["but y"]
 
 def band_member():
-    print("band_member")
+    return["band member", [-25, 0, 0]]
 
 def scared():
-    print("scared")
+    return ["scared"]
 
 def dizzy():
-    print("dizzy")
+    return ["dizzy"]
 
 def fleshy():
     return ["fleshy"]
@@ -230,7 +230,7 @@ outcome_functions = {
     28: dehydrated,
     29: need_a_hand,
     30: lazy,
-    31: kaklanck,
+    31: grapple,
     32: charm,
     33: kind_hearted,
     34: but_y,
@@ -278,14 +278,41 @@ class Player:
                 self.health /= 2 * time_multiplier
         elif input_code[0] == "dehydrated":
             self.attack_multiplier /= 1.5 * time_multiplier
-        # elif input_code[0] == "wario steam":  
-
-        #     if 0 <= self.x + dx < GRID_WIDTH and 0 <= self.y + dy < GRID_HEIGHT and not (self.x + dx == other_player.x and self.y + dy == other_player.y):
-        #         self.x += dx
-        #         self.y += dy
-        #     if 0 <= self.x + dx < GRID_WIDTH and 0 <= self.y + dy < GRID_HEIGHT and not (self.x + dx == other_player.x and self.y + dy == other_player.y):
-        #         self.x += dx
-        #         self.y += dy          
+        elif input_code[0] == "dehydrated":
+            other_player.attack_multiplier *= 2 * time_multiplier
+        elif input_code[0] == "acid rain":
+            self.health_change(-10 * time_multiplier)
+            other_player.health_change(-10 * time_multiplier)
+        elif input_code[0] == "wario steam":
+            self.x += calculate_direction([0, -1], self.direction)[0]
+            self.y += calculate_direction([0, -1], self.direction)[1]
+            self.x = clamp_coordinate(self.x, GRID_WIDTH)
+            self.y = clamp_coordinate(self.y, GRID_HEIGHT)
+        elif input_code[0] == "souls like":
+            self.x += calculate_direction([1, -1], self.direction)[0]
+            self.y += calculate_direction([1, -1], self.direction)[1]
+            self.x = clamp_coordinate(self.x, GRID_WIDTH)
+            self.y = clamp_coordinate(self.y, GRID_HEIGHT)
+        elif input_code[0] == "energy drink":
+            self.x += calculate_direction([0, 3], self.direction)[0]
+            self.y += calculate_direction([0, 3], self.direction)[1]
+            self.x = clamp_coordinate(self.x, GRID_WIDTH)
+            self.y = clamp_coordinate(self.y, GRID_HEIGHT)
+        elif input_code[0] == "dizzy":
+            self.direction = random.randint(0,3)
+            other_player.direction = random.randint(0,3)
+        elif input_code[0] == "grapple":
+            other_player.x = self.x + calculate_direction([0, 1], self.direction)[0]
+            other_player.y = self.y + calculate_direction([0, 1], self.direction)[1]
+        elif input_code[0] == "scared":
+            self.x += calculate_direction([0, -2], self.direction)[0]
+            self.y += calculate_direction([0, -2], self.direction)[1]
+            self.x = clamp_coordinate(self.x, GRID_WIDTH)
+            self.y = clamp_coordinate(self.y, GRID_HEIGHT)
+            self.attack_multiplier /= 1.1 * time_multiplier
+        elif input_code[0] == "charm":
+            self.x = other_player.x + calculate_direction([0, 1], other_player.direction)[0]
+            self.y = other_player.y + calculate_direction([0, 1], other_player.direction)[1]
 
         for i in range(1, len(input_code)):
             coords = calculate_direction([input_code[i][1], input_code[i][2]], self.direction)
@@ -339,6 +366,14 @@ def calculate_direction(pair, direction):
         return [pair[0], -pair[1]]
     elif direction == 3:
         return [-pair[1], -pair[0]]
+    
+def clamp_coordinate(value, limit):
+    if value >= limit:
+        return limit-1
+    elif value < 0:
+        return 0
+    else:
+        return value
 
 #======================================================================
 
