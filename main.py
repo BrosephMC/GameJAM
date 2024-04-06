@@ -37,15 +37,7 @@ def main():
 
     while running:
         
-        #clock
-        # Calculate elapsed time
-        elapsed_time = (pygame.time.get_ticks() - start_time) // 1000  # Convert milliseconds to seconds
-        # Draw timer overlay
-        timer_surface = pygame.Surface((200, 50), pygame.SRCALPHA)
-        timer_surface.fill((0, 0, 0, 128))  # Semi-transparent black background
-        timer_text = FONT.render(f"Time: {elapsed_time}s", True, WHITE)
-        timer_surface.blit(timer_text, (10, 10))
-        WINDOW.blit(timer_surface, (10, 10))  # Position the timer overlay
+        
         
         # Handle events
         for event in pygame.event.get():
@@ -83,6 +75,16 @@ def main():
         WINDOW.blit(player_image, (player1_x * GRID_SIZE, player1_y * GRID_SIZE))
         WINDOW.blit(opponent_image, (player2_x * GRID_SIZE, player2_y * GRID_SIZE))
 
+        #clock
+        # Calculate elapsed time
+        elapsed_time = (pygame.time.get_ticks() - start_time) // 1000  # Convert milliseconds to seconds
+        # Draw timer overlay
+        timer_surface = pygame.Surface((200, 50), pygame.SRCALPHA)
+        #timer_surface.fill((0, 0, 0, 128))  # Semi-transparent black background
+        timer_text = FONT.render(f"Time: {elapsed_time}s", True, BLACK)
+        timer_surface.blit(timer_text, (5, 5))
+        WINDOW.blit(timer_surface, (5, 5))  # Position the timer overlay
+        
         pygame.display.update()
 
 # Run the game

@@ -22,29 +22,34 @@ def main():
     start_time = pygame.time.get_ticks()  # Get the time when the program starts
 
     while running:
+        
+        # Draw main content
+        WINDOW.fill(WHITE)
+        #pygame.draw.circle(WINDOW, BLACK, (WIDTH // 2, HEIGHT // 2), 200)
+        
+        #########################
+        # Calculate elapsed time
+        elapsed_time = (pygame.time.get_ticks() - start_time) // 1000  # Convert milliseconds to seconds
+        #########################
+        
+        
+
+        #########################
+        # Draw timer overlay
+        timer_surface = pygame.Surface((200, 50), pygame.SRCALPHA)
+        #timer_surface.fill((0, 0, 0, 128))  # Semi-transparent black background
+        timer_text = FONT.render(f"Time: {elapsed_time}s", True, BLACK)
+        timer_surface.blit(timer_text, (0, 0))
+        WINDOW.blit(timer_surface, (0, 0))  # Position the timer overlay
+        #########################
+        
         # Handle events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
 
-        #########################
-        # Calculate elapsed time
-        elapsed_time = (pygame.time.get_ticks() - start_time) // 1000  # Convert milliseconds to seconds
-        #########################
         
-        # Draw main content
-        WINDOW.fill(WHITE)
-        pygame.draw.circle(WINDOW, BLACK, (WIDTH // 2, HEIGHT // 2), 200)
-
-        #########################
-        # Draw timer overlay
-        timer_surface = pygame.Surface((200, 50), pygame.SRCALPHA)
-        timer_surface.fill((0, 0, 0, 128))  # Semi-transparent black background
-        timer_text = FONT.render(f"Time: {elapsed_time}s", True, WHITE)
-        timer_surface.blit(timer_text, (10, 10))
-        WINDOW.blit(timer_surface, (10, 10))  # Position the timer overlay
-        #########################
         
         pygame.display.update()
 
