@@ -14,7 +14,7 @@ GRID_WIDTH, GRID_HEIGHT = 6, 7
 GRID_SIZE = min((WIDTH - 100) // GRID_WIDTH, (HEIGHT - 100) // GRID_HEIGHT)
 BORDER_SIZE = 4
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Grid Movement Game")
+pygame.display.set_caption("JAM Game")
 
 #initialize background image
 background_image = pygame.image.load("images/grass.jpg").convert()
