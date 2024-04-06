@@ -42,9 +42,13 @@ player_image = pygame.image.load('images/player.png').convert_alpha()
 player_image = pygame.transform.scale(player_image, (GRID_SIZE, GRID_SIZE))
 opponent_image = pygame.image.load('images/opponent.png').convert_alpha()
 opponent_image = pygame.transform.scale(opponent_image, (GRID_SIZE, GRID_SIZE))
+
+# Global variables
 player_turn = 1
 turn_state = 0  # 0 - Idle | 1 - Attack | 2 - Rotate (first) | 3 - Move (second optional)
 start_time = 0  # sets to real start time when game starts
+move_speed = 1  # Number of squares the player moves at a time
+highlighted_bubble = None
 
 # Load player number images
 one_image = pygame.image.load('images/1.png').convert_alpha()
@@ -274,17 +278,42 @@ def finish_turn():
 
 #======================================================================
 
+def player_control(key, player, other_player, left_key, right_key, up_key, down_key, move_key):
+    global move_speed, highlighted_bubble
+
+    if key == left_key and pygame.key.get_mods() & move_key:
+        player.move(-move_speed, 0, other_player)
+    elif key == right_key and pygame.key.get_mods() & move_key:
+        player.move(move_speed, 0, other_player)
+    elif key == up_key and pygame.key.get_mods() & move_key:
+        player.move(0, -move_speed, other_player)
+    elif key == down_key and pygame.key.get_mods() & move_key:
+        player.move(0, move_speed, other_player)
+
+    elif key == left_key and turn_state == 0:
+        highlighted_bubble = 1
+        print("A")
+    elif key == right_key and turn_state == 0:
+        highlighted_bubble = 3
+        print("D")
+    elif key == up_key and turn_state == 0:
+        highlighted_bubble = 4
+        print("W")
+    elif key == down_key and turn_state == 0:
+        highlighted_bubble = 2
+        print("S")
+
+#====================================================================
+
 # Main game loop
 def main():
     player1 = Player(0, 0)
     player2 = Player(GRID_WIDTH - 1, GRID_HEIGHT - 1)
-    move_speed = 1  # Number of squares the player moves at a time
 
-    global start_time
+    global start_time, turn_state, player_turn, high
     start_time = pygame.time.get_ticks()  # Get the time when the program starts
     
     running = True
-    highlighted_bubble = None
 
     while running:
 
@@ -297,33 +326,10 @@ def main():
 
                 # Player 1 movement with WASD
                 if player_turn == 1:
-                    if event.key == pygame.K_a:
-                        player1.move(-move_speed, 0, player2)
-                        highlighted_bubble = 1
-                    elif event.key == pygame.K_d:
-                        player1.move(move_speed, 0, player2)
-                        highlighted_bubble = 3
-                    elif event.key == pygame.K_w:
-                        player1.move(0, -move_speed, player2)
-                        highlighted_bubble = 4
-                    elif event.key == pygame.K_s:
-                        player1.move(0, move_speed, player2)
-                        highlighted_bubble = 2
+                    player_control(event.key, player1, player2, pygame.K_a, pygame.K_d, pygame.K_w, pygame.K_s, pygame.KMOD_LSHIFT)
 
                 elif player_turn == 2:
-                    # Player 2 movement with arrow keys
-                    if event.key == pygame.K_LEFT:
-                        player2.move(-move_speed, 0, player1)
-                        highlighted_bubble = 1
-                    elif event.key == pygame.K_RIGHT:
-                        player2.move(move_speed, 0, player1)
-                        highlighted_bubble = 3
-                    elif event.key == pygame.K_UP:
-                        player2.move(0, -move_speed, player1)
-                        highlighted_bubble = 4
-                    elif event.key == pygame.K_DOWN:
-                        player2.move(0, move_speed, player1)
-                        highlighted_bubble = 2
+                    player_control(event.key, player2, player1, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN, pygame.KMOD_RCTRL)
 
         #==============================================================
 
@@ -389,7 +395,6 @@ def main():
         WINDOW.blit(text_surface, (300, 10))  # Blit the text surface onto the window
 
         # Progress Bar
-        global turn_state
         if turn_state != 2:
             time_window = 5 * 1000
             progress_bar_color = GREEN
