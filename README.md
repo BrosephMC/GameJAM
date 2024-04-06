@@ -1,10 +1,11 @@
 # GameJAM
 This is a readme
 
+total moves 38
 
 good move list
 -- fire ball(aoe 4 tile range ---+)
--- punch(one tile)
+-- punch(one tile) 
 -- bishop(just the bishop)
 -- energy drink(move 2 tiles next turn)
 -- smelly(massice damage all tiles touching)

@@ -1,5 +1,6 @@
 import pygame
 import sys
+import random
 
 # Initialize Pygame
 pygame.init()
@@ -60,6 +61,177 @@ player_images = [pygame.transform.rotate(player_image, angle) for angle in (0, 9
 opponent_images = [pygame.transform.rotate(opponent_image, angle) for angle in (0, 90, 180, 270)]
 
 #=============================================================================================
+
+
+def generate_random_number():
+    return random.randint(0, 100)
+
+
+def handle_random_outcome(random_number):
+    # Get the function associated with the random number and call it
+    outcome_function = outcome_functions.get(random_number)
+    if outcome_function:
+        outcome_function()
+    else:
+        print("Invalid random number:", random_number)
+
+
+
+def fire_ball():
+    print("Outcome 1")
+
+def punch():
+    print("Outcome 2")
+    
+def bishop():
+    print("Outcome 1")
+
+def energy_drink():
+    print("Outcome 2")
+
+def smelly():
+    print("Outcome 1")
+
+def acid_rain():
+    print("Outcome 2")
+
+def gun():
+    print("Outcome 1")
+
+def zoom():
+    print("Outcome 2")
+
+def cleave():
+    print("Outcome 1")
+
+def arm_day():
+    print("Outcome 2")
+
+def prayer():
+    print("Outcome 1")
+
+def souls_like():
+    print("Outcome 2")
+
+def backflip():
+    print("Outcome 1")
+
+def cocaine():
+    print("Outcome 2")
+
+def flame_thrower():
+    print("Outcome 1")
+
+def taco_bell():
+    print("Outcome 2")
+
+def home_cookin():
+    print("Outcome 1")
+
+def greneade():
+    print("Outcome 2")
+
+def wario_steam():
+    print("Outcome 1")
+
+def tipper():
+    print("Outcome 2")
+    
+def bair():
+    print("Outcome 1")
+
+def cannible():
+    print("Outcome 2")
+
+def split_kick():
+    print("Outcome 1")
+
+def blue_shirt():
+    print("Outcome 2")
+
+def red_shirt():
+    print("Outcome 1")
+
+def broke():
+    print("Outcome 2")
+
+def paper_cut():
+    print("Outcome 1")
+
+def dehydrated():
+    print("Outcome 2")
+
+def need_a_hand():
+    print("Outcome 1")
+
+def lazy():
+    print("Outcome 2")
+
+def kaklanck():
+    print("Outcome 1")
+
+def charm():
+    print("Outcome 2")
+
+def kind_hearted():
+    print("Outcome 1")
+
+def but_y():
+    print("Outcome 2")
+
+def band_member():
+    print("Outcome 1")
+
+def scared():
+    print("Outcome 2")
+
+def dizzy():
+    print("Outcome 2")
+
+def fleshy():
+    print("Outcome 38")
+
+outcome_functions = {
+    1: fire_ball,
+    2: punch,
+    3: bishop,
+    4: energy_drink,
+    5: smelly,
+    6: acid_rain,
+    7: gun,
+    8: zoom,
+    9: cleave,
+    10: arm_day,
+    11: prayer,
+    12: souls_like,
+    13: backflip,
+    14: cocaine,
+    15: flame_thrower,
+    16: taco_bell,
+    17: home_cookin,
+    18: greneade,
+    19: wario_steam,
+    20: tipper,
+    21: bair,
+    22: cannible,
+    23: split_kick,
+    24: blue_shirt,
+    25: red_shirt,
+    26: broke,
+    27: paper_cut,
+    28: dehydrated,
+    29: need_a_hand,
+    30: lazy,
+    31: kaklanck,
+    32: charm,
+    33: kind_hearted,
+    34: but_y,
+    35: band_member,
+    36: scared,
+    37: dizzy,
+    38: fleshy
+}
+
 
 # Player class
 class Player:
