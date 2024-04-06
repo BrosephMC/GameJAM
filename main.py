@@ -165,7 +165,7 @@ def broke():
     print("broke")
 
 def paper_cut():
-    print("paper_cut")
+    return ["paper cut", [-5, 0, 0]]
 
 def dehydrated():
     print("dehydrated")
