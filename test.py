@@ -5,9 +5,10 @@ import sys
 pygame.init()
 
 # Set up the window
-WIDTH, HEIGHT = 700, 500
-GRID_SIZE = 100
-GRID_WIDTH, GRID_HEIGHT = WIDTH // GRID_SIZE, HEIGHT // GRID_SIZE
+WIDTH, HEIGHT = 500, 700
+GRID_WIDTH, GRID_HEIGHT = 6, 7
+GRID_SIZE = min((WIDTH - 100) // GRID_WIDTH, (HEIGHT - 100) // GRID_HEIGHT)
+BORDER_SIZE = 4
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Grid Movement Game")
 
@@ -51,16 +52,21 @@ def main():
                 elif event.key == pygame.K_DOWN and player2_y < GRID_HEIGHT - 1 and (player2_x, player2_y + move_speed) != (player1_x, player1_y):
                     player2_y += move_speed
 
-        # Draw grid
+        # Draw background
         WINDOW.fill((255, 255, 255))
-        for x in range(0, WIDTH, GRID_SIZE):
-            pygame.draw.line(WINDOW, (0, 0, 0), (x, 0), (x, HEIGHT))
-        for y in range(0, HEIGHT, GRID_SIZE):
-            pygame.draw.line(WINDOW, (0, 0, 0), (0, y), (WIDTH, y))
+
+        # Draw grid border
+        pygame.draw.rect(WINDOW, (0, 0, 0), (50, 50, GRID_WIDTH * GRID_SIZE, GRID_HEIGHT * GRID_SIZE), BORDER_SIZE)
+
+        # Draw grid
+        for x in range(50 + GRID_SIZE, 50 + GRID_WIDTH * GRID_SIZE, GRID_SIZE):
+            pygame.draw.line(WINDOW, (0, 0, 0), (x, 50), (x, 50 + GRID_HEIGHT * GRID_SIZE - 1), BORDER_SIZE)
+        for y in range(50 + GRID_SIZE, 50 + GRID_HEIGHT * GRID_SIZE, GRID_SIZE):
+            pygame.draw.line(WINDOW, (0, 0, 0), (50, y), (50 + GRID_WIDTH * GRID_SIZE - 1, y), BORDER_SIZE)
 
         # Draw players
-        WINDOW.blit(player_image, (player1_x * GRID_SIZE, player1_y * GRID_SIZE))
-        WINDOW.blit(opponent_image, (player2_x * GRID_SIZE, player2_y * GRID_SIZE))
+        WINDOW.blit(player_image, (player1_x * GRID_SIZE + 50, player1_y * GRID_SIZE + 50))
+        WINDOW.blit(opponent_image, (player2_x * GRID_SIZE + 50, player2_y * GRID_SIZE + 50))
 
         pygame.display.update()
 
