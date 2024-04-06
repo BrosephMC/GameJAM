@@ -11,6 +11,13 @@ GRID_WIDTH, GRID_HEIGHT = WIDTH // GRID_SIZE, HEIGHT // GRID_SIZE
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Grid Movement Game")
 
+# Colors
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+# Font
+FONT = pygame.font.SysFont(None, 30)
+
 # Load player and opponent images
 player_image = pygame.image.load('images/player.png').convert_alpha()
 player_image = pygame.transform.scale(player_image, (GRID_SIZE, GRID_SIZE))
@@ -23,9 +30,23 @@ def main():
     player2_x, player2_y = GRID_WIDTH - 1, GRID_HEIGHT - 1
     move_speed = 1  # Number of squares the player moves at a time
 
+    #clock variable
+    start_time = pygame.time.get_ticks()  # Get the time when the program starts
+    
     running = True
 
     while running:
+        
+        #clock
+        # Calculate elapsed time
+        elapsed_time = (pygame.time.get_ticks() - start_time) // 1000  # Convert milliseconds to seconds
+        # Draw timer overlay
+        timer_surface = pygame.Surface((200, 50), pygame.SRCALPHA)
+        timer_surface.fill((0, 0, 0, 128))  # Semi-transparent black background
+        timer_text = FONT.render(f"Time: {elapsed_time}s", True, WHITE)
+        timer_surface.blit(timer_text, (10, 10))
+        WINDOW.blit(timer_surface, (10, 10))  # Position the timer overlay
+        
         # Handle events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
