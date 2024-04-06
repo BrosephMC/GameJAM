@@ -1,5 +1,6 @@
 import pygame
 import sys
+import random
 
 # Initialize Pygame
 pygame.init()
@@ -41,9 +42,13 @@ player_image = pygame.image.load('images/player.png').convert_alpha()
 player_image = pygame.transform.scale(player_image, (GRID_SIZE, GRID_SIZE))
 opponent_image = pygame.image.load('images/opponent.png').convert_alpha()
 opponent_image = pygame.transform.scale(opponent_image, (GRID_SIZE, GRID_SIZE))
+
+# Global variables
 player_turn = 1
 turn_state = 0  # 0 - Idle | 1 - Attack | 2 - Rotate (first) | 3 - Move (second optional)
 start_time = 0  # sets to real start time when game starts
+move_speed = 1  # Number of squares the player moves at a time
+highlighted_bubble = None
 
 # Load player number images
 one_image = pygame.image.load('images/1.png').convert_alpha()
@@ -60,6 +65,177 @@ player_images = [pygame.transform.rotate(player_image, angle) for angle in (0, 9
 opponent_images = [pygame.transform.rotate(opponent_image, angle) for angle in (0, 90, 180, 270)]
 
 #=============================================================================================
+
+
+def generate_random_number():
+    return random.randint(0, 100)
+
+
+def handle_random_outcome(random_number):
+    # Get the function associated with the random number and call it
+    outcome_function = outcome_functions.get(random_number)
+    if outcome_function:
+        outcome_function()
+    else:
+        print("Invalid random number:", random_number)
+
+
+
+def fire_ball():
+    print("Outcome 1")
+
+def punch():
+    print("Outcome 2")
+    
+def bishop():
+    print("Outcome 1")
+
+def energy_drink():
+    print("Outcome 2")
+
+def smelly():
+    print("Outcome 1")
+
+def acid_rain():
+    print("Outcome 2")
+
+def gun():
+    print("Outcome 1")
+
+def zoom():
+    print("Outcome 2")
+
+def cleave():
+    print("Outcome 1")
+
+def arm_day():
+    print("Outcome 2")
+
+def prayer():
+    print("Outcome 1")
+
+def souls_like():
+    print("Outcome 2")
+
+def backflip():
+    print("Outcome 1")
+
+def cocaine():
+    print("Outcome 2")
+
+def flame_thrower():
+    print("Outcome 1")
+
+def taco_bell():
+    print("Outcome 2")
+
+def home_cookin():
+    print("Outcome 1")
+
+def greneade():
+    print("Outcome 2")
+
+def wario_steam():
+    print("Outcome 1")
+
+def tipper():
+    print("Outcome 2")
+    
+def bair():
+    print("Outcome 1")
+
+def cannible():
+    print("Outcome 2")
+
+def split_kick():
+    print("Outcome 1")
+
+def blue_shirt():
+    print("Outcome 2")
+
+def red_shirt():
+    print("Outcome 1")
+
+def broke():
+    print("Outcome 2")
+
+def paper_cut():
+    print("Outcome 1")
+
+def dehydrated():
+    print("Outcome 2")
+
+def need_a_hand():
+    print("Outcome 1")
+
+def lazy():
+    print("Outcome 2")
+
+def kaklanck():
+    print("Outcome 1")
+
+def charm():
+    print("Outcome 2")
+
+def kind_hearted():
+    print("Outcome 1")
+
+def but_y():
+    print("Outcome 2")
+
+def band_member():
+    print("Outcome 1")
+
+def scared():
+    print("Outcome 2")
+
+def dizzy():
+    print("Outcome 2")
+
+def fleshy():
+    print("Outcome 38")
+
+outcome_functions = {
+    1: fire_ball,
+    2: punch,
+    3: bishop,
+    4: energy_drink,
+    5: smelly,
+    6: acid_rain,
+    7: gun,
+    8: zoom,
+    9: cleave,
+    10: arm_day,
+    11: prayer,
+    12: souls_like,
+    13: backflip,
+    14: cocaine,
+    15: flame_thrower,
+    16: taco_bell,
+    17: home_cookin,
+    18: greneade,
+    19: wario_steam,
+    20: tipper,
+    21: bair,
+    22: cannible,
+    23: split_kick,
+    24: blue_shirt,
+    25: red_shirt,
+    26: broke,
+    27: paper_cut,
+    28: dehydrated,
+    29: need_a_hand,
+    30: lazy,
+    31: kaklanck,
+    32: charm,
+    33: kind_hearted,
+    34: but_y,
+    35: band_member,
+    36: scared,
+    37: dizzy,
+    38: fleshy
+}
+
 
 # Player class
 class Player:
@@ -102,17 +278,38 @@ def finish_turn():
 
 #======================================================================
 
+def player_control(key, player, other_player, left_key, right_key, up_key, down_key, move_key):
+    global move_speed, highlighted_bubble
+
+    if key == left_key and pygame.key.get_mods() & move_key:
+        player.move(-move_speed, 0, other_player)
+    elif key == right_key and pygame.key.get_mods() & move_key:
+        player.move(move_speed, 0, other_player)
+    elif key == up_key and pygame.key.get_mods() & move_key:
+        player.move(0, -move_speed, other_player)
+    elif key == down_key and pygame.key.get_mods() & move_key:
+        player.move(0, move_speed, other_player)
+
+    elif key == left_key and turn_state == 0:
+        highlighted_bubble = 1
+    elif key == right_key and turn_state == 0:
+        highlighted_bubble = 3
+    elif key == up_key and turn_state == 0:
+        highlighted_bubble = 4
+    elif key == down_key and turn_state == 0:
+        highlighted_bubble = 2
+
+#====================================================================
+
 # Main game loop
 def main():
     player1 = Player(0, 0)
     player2 = Player(GRID_WIDTH - 1, GRID_HEIGHT - 1)
-    move_speed = 1  # Number of squares the player moves at a time
 
-    global start_time
+    global start_time, turn_state, player_turn, high
     start_time = pygame.time.get_ticks()  # Get the time when the program starts
     
     running = True
-    highlighted_bubble = None
 
     while running:
 
@@ -125,33 +322,10 @@ def main():
 
                 # Player 1 movement with WASD
                 if player_turn == 1:
-                    if event.key == pygame.K_a:
-                        player1.move(-move_speed, 0, player2)
-                        highlighted_bubble = 1
-                    elif event.key == pygame.K_d:
-                        player1.move(move_speed, 0, player2)
-                        highlighted_bubble = 3
-                    elif event.key == pygame.K_w:
-                        player1.move(0, -move_speed, player2)
-                        highlighted_bubble = 4
-                    elif event.key == pygame.K_s:
-                        player1.move(0, move_speed, player2)
-                        highlighted_bubble = 2
+                    player_control(event.key, player1, player2, pygame.K_a, pygame.K_d, pygame.K_w, pygame.K_s, pygame.KMOD_LSHIFT)
 
                 elif player_turn == 2:
-                    # Player 2 movement with arrow keys
-                    if event.key == pygame.K_LEFT:
-                        player2.move(-move_speed, 0, player1)
-                        highlighted_bubble = 1
-                    elif event.key == pygame.K_RIGHT:
-                        player2.move(move_speed, 0, player1)
-                        highlighted_bubble = 3
-                    elif event.key == pygame.K_UP:
-                        player2.move(0, -move_speed, player1)
-                        highlighted_bubble = 4
-                    elif event.key == pygame.K_DOWN:
-                        player2.move(0, move_speed, player1)
-                        highlighted_bubble = 2
+                    player_control(event.key, player2, player1, pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN, pygame.KMOD_RCTRL)
 
         #==============================================================
 
@@ -217,7 +391,6 @@ def main():
         WINDOW.blit(text_surface, (300, 10))  # Blit the text surface onto the window
 
         # Progress Bar
-        global turn_state
         if turn_state != 2:
             time_window = 5 * 1000
             progress_bar_color = GREEN

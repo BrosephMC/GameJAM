@@ -292,16 +292,12 @@ def player_control(key, player, other_player, left_key, right_key, up_key, down_
 
     elif key == left_key and turn_state == 0:
         highlighted_bubble = 1
-        print("A")
     elif key == right_key and turn_state == 0:
         highlighted_bubble = 3
-        print("D")
     elif key == up_key and turn_state == 0:
         highlighted_bubble = 4
-        print("W")
     elif key == down_key and turn_state == 0:
         highlighted_bubble = 2
-        print("S")
 
 #====================================================================
 
