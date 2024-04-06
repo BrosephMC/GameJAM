@@ -72,125 +72,125 @@ def generate_random_number():
 
 def handle_random_outcome(random_number):
     # Get the function associated with the random number and call it
-    outcome_function = outcome_functions.get(random_number)
+    outcome_function = outcome_functions.get(random_number+1)
     if outcome_function:
         outcome_function()
     else:
         print("Invalid random number:", random_number)
 
 def fire_ball():
-    print("Outcome 1")
+    print("fire_ball")
 
 def punch():
-    print("Outcome 2")
+    print("punch")
     
 def bishop():
-    print("Outcome 1")
+    print("bishop")
 
 def energy_drink():
-    print("Outcome 2")
+    print("energy_drink")
 
 def smelly():
-    print("Outcome 1")
+    print("smelly")
 
 def acid_rain():
-    print("Outcome 2")
+    print("acid_rain")
 
 def gun():
-    print("Outcome 1")
+    print("gun")
 
 def zoom():
-    print("Outcome 2")
+    print("zoom")
 
 def cleave():
-    print("Outcome 1")
+    print("cleave")
 
 def arm_day():
-    print("Outcome 2")
+    print("arm_day")
 
 def prayer():
-    print("Outcome 1")
+    print("prayer")
 
 def souls_like():
-    print("Outcome 2")
+    print("souls_like")
 
 def backflip():
-    print("Outcome 1")
+    print("backflip")
 
 def cocaine():
-    print("Outcome 2")
+    print("cocaine")
 
 def flame_thrower():
-    print("Outcome 1")
+    print("flame_thrower")
 
 def taco_bell():
-    print("Outcome 2")
+    print("taco_bell")
 
 def home_cookin():
-    print("Outcome 1")
+    print("home_cookin")
 
 def greneade():
-    print("Outcome 2")
+    print("greneade")
 
 def wario_steam():
-    print("Outcome 1")
+    print("wario_steam")
 
 def tipper():
-    print("Outcome 2")
+    print("tipper")
     
 def bair():
-    print("Outcome 1")
+    print("bair")
 
 def cannible():
-    print("Outcome 2")
+    print("cannible")
 
 def split_kick():
-    print("Outcome 1")
+    print("split_kick")
 
 def blue_shirt():
-    print("Outcome 2")
+    print("blue_shirt")
 
 def red_shirt():
-    print("Outcome 1")
+    print("red_shirt")
 
 def broke():
-    print("Outcome 2")
+    print("broke")
 
 def paper_cut():
-    print("Outcome 1")
+    print("paper_cut")
 
 def dehydrated():
-    print("Outcome 2")
+    print("dehydrated")
 
 def need_a_hand():
-    print("Outcome 1")
+    print("need_a_hand")
 
 def lazy():
-    print("Outcome 2")
+    print("lazy")
 
 def kaklanck():
-    print("Outcome 1")
+    print("kaklanck")
 
 def charm():
-    print("Outcome 2")
+    print("charm")
 
 def kind_hearted():
-    print("Outcome 1")
+    print("kind_hearted")
 
 def but_y():
-    print("Outcome 2")
+    print("but_y")
 
 def band_member():
-    print("Outcome 1")
+    print("band_member")
 
 def scared():
-    print("Outcome 2")
+    print("scared")
 
 def dizzy():
-    print("Outcome 2")
+    print("dizzy")
 
 def fleshy():
-    print("Outcome 38")
+    print("fleshy")
 
 outcome_functions = {
     1: fire_ball,
@@ -291,14 +291,19 @@ def player_control(key, player, other_player, left_key, right_key, up_key, down_
     elif key == down_key and pygame.key.get_mods() & move_key:
         player.move(0, move_speed, other_player)
 
-    elif key == left_key and turn_state == 0:
-        highlighted_bubble = 1
-    elif key == right_key and turn_state == 0:
-        highlighted_bubble = 3
-    elif key == up_key and turn_state == 0:
-        highlighted_bubble = 4
-    elif key == down_key and turn_state == 0:
-        highlighted_bubble = 2
+    elif turn_state == 0:
+        if key == left_key:
+            highlighted_bubble = 1
+            handle_random_outcome(move_list[0])
+        elif key == right_key:
+            highlighted_bubble = 3
+            handle_random_outcome(move_list[2])
+        elif key == up_key:
+            highlighted_bubble = 4
+            handle_random_outcome(move_list[3])
+        elif key == down_key:
+            highlighted_bubble = 2
+            handle_random_outcome(move_list[1])
 
 #====================================================================
 
