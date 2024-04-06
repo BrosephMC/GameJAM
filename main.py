@@ -68,13 +68,14 @@ opponent_images = [pygame.transform.rotate(opponent_image, angle) for angle in (
 #=============================================================================================
 
 def generate_random_number():
-    return random.randint(0, 37)
+    # return random.randint(0, 37)
+    return 1
 
-def handle_random_outcome(random_number):
-    # Get the function associated with the random number and call it
+def handle_random_outcome(player, other_player, random_number):
+
     outcome_function = outcome_functions.get(random_number+1)
     if outcome_function:
-        outcome_function()
+        player.attack(other_player, outcome_function(), 1)
     else:
         print("Invalid random number:", random_number)
 
@@ -83,6 +84,8 @@ def fire_ball():
 
 def punch():
     print("punch")
+    #[damage, left, forward]
+    return ["punch", [-20, 0, 1]]
     
 def bishop():
     print("bishop")
@@ -242,13 +245,17 @@ class Player:
         self.y = y
         self.direction = 0
         self.health = 100
+        self.attack_multiplier = 1
 
     def health_change(self, x):
         self.health += x
 
-    def attack(self, damage, buff_debuf, time_multiplier):
-        damage = damage * time_multiplier * buff_debuf
-
+    def attack(self, other_player, input_code, time_multiplier):
+        for i in range(1, len(input_code)):
+            coords = calculate_direction([input_code[i][1], input_code[i][2]], self.direction)
+            if self.x + coords[0] == other_player.x and self.y + coords[1] == other_player.y:
+                other_player.health_change(input_code[i][0] * time_multiplier)
+        print(other_player, other_player.health)
 
     def buff_debuff(self, float):
         buff_debuf = float
@@ -288,6 +295,16 @@ def finish_turn():
     for i in range(4):
         move_list[i] = generate_random_number()
 
+def calculate_direction(pair, direction):
+    if direction == 0:
+        return [-pair[0], pair[1]]
+    elif direction == 1:
+        return [pair[1], pair[0]]
+    elif direction == 2:
+        return [pair[0], -pair[1]]
+    elif direction == 3:
+        return [-pair[1], -pair[0]]
+
 #======================================================================
 
 def player_control(key, player, other_player, left_key, right_key, up_key, down_key, move_key):
@@ -305,16 +322,16 @@ def player_control(key, player, other_player, left_key, right_key, up_key, down_
     elif turn_state == 0:
         if key == left_key:
             highlighted_bubble = 1
-            handle_random_outcome(move_list[0])
+            handle_random_outcome(player, other_player, move_list[0])
         elif key == right_key:
             highlighted_bubble = 3
-            handle_random_outcome(move_list[2])
+            handle_random_outcome(player, other_player, move_list[2])
         elif key == up_key:
             highlighted_bubble = 4
-            handle_random_outcome(move_list[3])
+            handle_random_outcome(player, other_player, move_list[3])
         elif key == down_key:
             highlighted_bubble = 2
-            handle_random_outcome(move_list[1])
+            handle_random_outcome(player, other_player, move_list[1])
 
 #====================================================================
 
