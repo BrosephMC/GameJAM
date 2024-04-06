@@ -12,13 +12,17 @@ BORDER_SIZE = 4
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Grid Movement Game")
 
+#initialize background image
+background_image = pygame.image.load("images/grass.jpg").convert()
+background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
+
 #Rendering settings
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 DARKRED = (144, 11, 10)
-RED = (195, 15, 14)
-ORANGE = (250, 91, 15)
-YELLOW = (255, 190, 0)
+RED = (212, 14, 0)
+ORANGE = (212, 106, 0)
+YELLOW = (212, 187, 0)
 FONT = pygame.font.SysFont(None, 30)
 
 # Load player and opponent images
@@ -27,6 +31,12 @@ player_image = pygame.transform.scale(player_image, (GRID_SIZE, GRID_SIZE))
 opponent_image = pygame.image.load('images/opponent.png').convert_alpha()
 opponent_image = pygame.transform.scale(opponent_image, (GRID_SIZE, GRID_SIZE))
 player_turn = 1
+
+# Load player number images
+one_image = pygame.image.load('images/1.png').convert_alpha()
+one_image = pygame.transform.scale(one_image, (30, 40))
+two_image = pygame.image.load('images/2.png').convert_alpha()
+two_image = pygame.transform.scale(two_image, (30, 40))
 
 # Rotate player images
 player_images = [pygame.transform.rotate(player_image, angle) for angle in (0, 90, 180, 270)]
@@ -106,13 +116,14 @@ def main():
                         player2.move(0, move_speed, player1)
 
         # Draw background
-        WINDOW.fill(WHITE)
-
+        # WINDOW.fill(WHITE)
+        WINDOW.blit(background_image, (0, 0))
+        
         # Draw grid border
-        pygame.draw.rect(WINDOW, DARKRED, (0, 0, GRID_WIDTH * GRID_SIZE + 120, GRID_HEIGHT * GRID_SIZE + 100), 50)
-        pygame.draw.rect(WINDOW, RED, (20, 20, GRID_WIDTH * GRID_SIZE + 60, GRID_HEIGHT * GRID_SIZE + 60), 10)
-        pygame.draw.rect(WINDOW, ORANGE, (30, 30, GRID_WIDTH * GRID_SIZE + 40, GRID_HEIGHT * GRID_SIZE + 40), 10)
-        pygame.draw.rect(WINDOW, YELLOW, (40, 40, GRID_WIDTH * GRID_SIZE + 20, GRID_HEIGHT * GRID_SIZE + 20), 10)
+        #pygame.draw.rect(WINDOW, DARKRED, (0, 0, GRID_WIDTH * GRID_SIZE + 120, GRID_HEIGHT * GRID_SIZE + 100), 50)
+        #pygame.draw.rect(WINDOW, RED, (20, 20, GRID_WIDTH * GRID_SIZE + 60, GRID_HEIGHT * GRID_SIZE + 60), 10)
+        #pygame.draw.rect(WINDOW, DARKRED, (30, 30, GRID_WIDTH * GRID_SIZE + 40, GRID_HEIGHT * GRID_SIZE + 40), 10)
+        #pygame.draw.rect(WINDOW, RED, (40, 40, GRID_WIDTH * GRID_SIZE + 20, GRID_HEIGHT * GRID_SIZE + 20), 10)
         pygame.draw.rect(WINDOW, BLACK, (50, 50, GRID_WIDTH * GRID_SIZE, GRID_HEIGHT * GRID_SIZE), BORDER_SIZE)
         
         
@@ -141,8 +152,13 @@ def main():
         timer_surface.blit(timer_text, (5, 5))
         WINDOW.blit(timer_surface, (5, 5))  # Position the timer overlay
 
-        text_surface = FONT.render("Player Turn: " + str(player_turn), True, WHITE)  # Render the text with variable value
-        WINDOW.blit(text_surface, (300, 10))  # Blit the text surface onto the window
+        if player_turn == 1:
+            WINDOW.blit(one_image, (450, 5))
+        else:
+            WINDOW.blit(two_image, (450, 5))
+        
+        #text_surface = FONT.render("Player Turn: " + str(player_turn), True, WHITE)  # Render the text with variable value
+        #WINDOW.blit(text_surface, (300, 10))  # Blit the text surface onto the window
 
         pygame.display.update()
 
