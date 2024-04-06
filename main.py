@@ -278,7 +278,7 @@ class Player:
                 self.health /= 2 * time_multiplier
         elif input_code[0] == "dehydrated":
             self.attack_multiplier /= 1.5 * time_multiplier
-        elif input_code[0] == "dehydrated":
+        elif input_code[0] == "red shirt":
             other_player.attack_multiplier *= 2 * time_multiplier
         elif input_code[0] == "acid rain":
             self.health_change(-10 * time_multiplier)
