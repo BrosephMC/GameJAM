@@ -71,7 +71,7 @@ opponent_images = [pygame.transform.rotate(opponent_image, angle) for angle in (
 
 def generate_random_number():
     # return random.randint(0, 37)
-    return 19
+    return 7
 
 def handle_random_outcome(player, other_player, random_number):
     global time_multiplier
@@ -106,7 +106,7 @@ def gun():
     return ["gun", [-20, 0, 1], [-20, 0, 2], [-20, 0, 3], [-20, 0, 4], [-20, 0, 5], [-20, 0, 6]]
 
 def zoom():
-    print("zoom")
+    return ["zoom"]
 
 def cleave():
     return ["cleave", [-12, 0, 1, ], [-12, 1, 1, ], [-12, -1, 1, ]]
@@ -258,10 +258,18 @@ class Player:
         turn_state = 1
         start_time = pygame.time.get_ticks()
 
+        #Special cases
+        if input_code[0] == "zoom":
+            self.x = random.randint(0, GRID_WIDTH-1)
+            self.y = random.randint(0, GRID_HEIGHT-1)
+
         for i in range(1, len(input_code)):
             coords = calculate_direction([input_code[i][1], input_code[i][2]], self.direction)
             if self.x + coords[0] == other_player.x and self.y + coords[1] == other_player.y:
                 other_player.health_change(input_code[i][0] * time_multiplier)
+            if self.x + coords[0] == self.x and self.y + coords[1] == self.y:
+                self.health_change(input_code[i][0] * time_multiplier)
+            
 
     def set_rotation(self, dx, dy):
         if dx > 0:
@@ -471,6 +479,10 @@ def main():
         WINDOW.blit(FONT.render("x1", True, WHITE), (120, HEIGHT - 55))
         pygame.draw.rect(WINDOW, WHITE, (150, HEIGHT-50, 200, 10), border_radius = 10)
         pygame.draw.rect(WINDOW, YELLOW, (150, HEIGHT-50, (time_multiplier-1)*200, 10), border_radius = 10)
+
+        # Attack Multiplier
+        WINDOW.blit(FONT.render("x" + str(player1.attack_multiplier), True, WHITE), (10, HEIGHT - 135))
+        WINDOW.blit(FONT.render("x" + str(player2.attack_multiplier), True, WHITE), (460, HEIGHT - 135))
 
         # Attack text
         WINDOW.blit(attack_text_surface, (-200 + progress_width * 1.5, 240))
