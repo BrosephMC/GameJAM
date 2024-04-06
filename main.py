@@ -241,6 +241,17 @@ class Player:
         self.x = x
         self.y = y
         self.direction = 0
+        self.health = 100
+
+    def health_change(self, x):
+        self.health += x
+
+    def attack(self, damage, buff_debuf, time_multiplier):
+        damage = damage * time_multiplier * buff_debuf
+
+
+    def buff_debuff(self, float):
+        buff_debuf = float
 
     def set_rotation(self, dx, dy):
         if dx > 0:
