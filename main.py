@@ -81,7 +81,7 @@ def handle_random_outcome(player, other_player, random_number):
 
 def fire_ball():
     print("fire_ball")
-
+    
 def punch():
     print("punch")
     #[damage, left, forward]
