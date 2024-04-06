@@ -49,6 +49,7 @@ turn_state = 0  # 0 - Idle | 1 - Attack | 2 - Rotate (first) | 3 - Move (second 
 start_time = 0  # sets to real start time when game starts
 move_speed = 1  # Number of squares the player moves at a time
 highlighted_bubble = None
+move_list = []
 
 # Load player number images
 one_image = pygame.image.load('images/1.png').convert_alpha()
@@ -273,6 +274,9 @@ def finish_turn():
     turn_state = 0
     start_time = pygame.time.get_ticks()
 
+    for i in range(4):
+        move_list[i] = generate_random_number()
+
 #======================================================================
 
 def player_control(key, player, other_player, left_key, right_key, up_key, down_key, move_key):
@@ -303,8 +307,10 @@ def main():
     player1 = Player(0, 0)
     player2 = Player(GRID_WIDTH - 1, GRID_HEIGHT - 1)
 
-    global start_time, turn_state, player_turn, high
+    global start_time, turn_state, player_turn, highlighted_bubble, move_list
     start_time = pygame.time.get_ticks()  # Get the time when the program starts
+    for i in range(4):
+        move_list.append(generate_random_number())
     
     running = True
 
@@ -361,7 +367,7 @@ def main():
                 pygame.draw.rect(WINDOW, GREY, (x, y, bubble_width, bubble_height), border_radius=20)
 
             # Draw text
-            text_surface = font.render(list(outcome_functions.items())[generate_random_number()][1].__name__, True, BLACK)  # Render the text with variable value
+            text_surface = font.render(list(outcome_functions.items())[move_list[i]][1].__name__, True, BLACK)  # Render the text with variable value
             text_rect = text_surface.get_rect(center=(x + bubble_width // 2, y + bubble_height // 2))
             WINDOW.blit(text_surface, text_rect)
 
