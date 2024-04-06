@@ -251,14 +251,14 @@ class Player:
         self.health += x
 
     def attack(self, other_player, input_code, time_multiplier):
+        global turn_state, start_time
+        turn_state = 1
+        start_time = pygame.time.get_ticks()
+
         for i in range(1, len(input_code)):
             coords = calculate_direction([input_code[i][1], input_code[i][2]], self.direction)
             if self.x + coords[0] == other_player.x and self.y + coords[1] == other_player.y:
                 other_player.health_change(input_code[i][0] * time_multiplier)
-        print(other_player, other_player.health)
-
-    def buff_debuff(self, float):
-        buff_debuf = float
 
     def set_rotation(self, dx, dy):
         if dx > 0:
@@ -421,10 +421,13 @@ def main():
         WINDOW.blit(text_surface, (300, 10))  # Blit the text surface onto the window
 
         # Progress Bar
-        if turn_state != 2:
+        if turn_state == 0:
             time_window = 5 * 1000
             progress_bar_color = GREEN
-        else:
+        elif turn_state == 1:
+            time_window = 1 * 1000
+            progress_bar_color = RED
+        elif turn_state == 2:
             time_window = 1 * 1000
             progress_bar_color = BLUE
             
