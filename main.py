@@ -24,13 +24,30 @@ opponent_image = pygame.image.load('images/opponent.png').convert_alpha()
 opponent_image = pygame.transform.scale(opponent_image, (GRID_SIZE, GRID_SIZE))
 player_turn = 1
 
+# Rotate player images
+player_images = [pygame.transform.rotate(player_image, angle) for angle in (0, 90, 180, 270)]
+opponent_images = [pygame.transform.rotate(opponent_image, angle) for angle in (0, 90, 180, 270)]
+
 # Player class
 class Player:
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.direction = 0
+
+    def set_rotation(self, dx, dy):
+        if dx > 0:
+            self.direction = 1
+        elif dx < 0:
+            self.direction = 3
+        elif dy > 0:
+            self.direction = 0
+        elif dy < 0:
+            self.direction = 2
 
     def move(self, dx, dy, other_player):
+        self.set_rotation(dx, dy)
+
         if 0 <= self.x + dx < GRID_WIDTH and 0 <= self.y + dy < GRID_HEIGHT and not (self.x + dx == other_player.x and self.y + dy == other_player.y):
             self.x += dx
             self.y += dy
@@ -97,8 +114,11 @@ def main():
             pygame.draw.line(WINDOW, (0, 0, 0), (50, y), (50 + GRID_WIDTH * GRID_SIZE - 1, y), BORDER_SIZE)
 
         # Draw players
-        WINDOW.blit(player_image, (player1.x * GRID_SIZE + 50, player1.y * GRID_SIZE + 50))
-        WINDOW.blit(opponent_image, (player2.x * GRID_SIZE + 50, player2.y * GRID_SIZE + 50))
+        #WINDOW.blit(player_image, (player1.x * GRID_SIZE + 50, player1.y * GRID_SIZE + 50))
+        #WINDOW.blit(opponent_image, (player2.x * GRID_SIZE + 50, player2.y * GRID_SIZE + 50))
+        # Draw players with rotation
+        WINDOW.blit(player_images[player1.direction], (player1.x * GRID_SIZE + 50, player1.y * GRID_SIZE + 50))
+        WINDOW.blit(opponent_images[player2.direction], (player2.x * GRID_SIZE + 50, player2.y * GRID_SIZE + 50))
 
         #clock
         # Calculate elapsed time
