@@ -115,13 +115,15 @@ def arm_day():
     print("arm_day")
 
 def prayer():
-    return ["punch", [-20, 0, 1]]
+    return ["prayer", [15, 0, 0], [15, 0, 1], [15, 1, 1], [15, 1, 0], [15, -1, 1], [15, 1, -1], [15, -1, -1], [15, -1, 0], [15, 0, -1]]
+    #not done
 
 def souls_like():
     print("souls_like")
 
 def backflip():
-    print("backflip")
+    return ["backflip", [-10, 0, -1]]
+    #not done
 
 def cocaine():
     print("cocaine")
@@ -130,12 +132,12 @@ def flame_thrower():
     return ["flame thrower", [-10, 0, 1, ], [-10, 1, 1, ], [-10, -1, 1, ], [-10, 0, 2, ], [-10, 1, 2, ], [-10, -1, 2, ]]
 
 def taco_bell():
-    print("taco_bell")
+    return ["taco bell", [10, 0, 0]]
 
 def home_cookin():
-    print("home_cookin")
+    return ["home cookin", [25, 0, 0]]
 
-def greneade():
+def grenade():
     return ["grenade", [-15, 0, 2, ], [-15, 1, 2, ], [-15, -1, 2, ], [-15, 0, 3, ], [-15, 1, 3, ], [-15, -1, 3, ], [-15, 0, 4], [-15, 1, 4], [-15, -1, 4]]
 
 def wario_steam():
@@ -147,14 +149,14 @@ def tipper():
 def bair():
     return ["bair", [-15, 0, -1]]
 
-def cannible():
-    print("cannible")
+def cannibal():
+    print("cannibal")
 
 def split_kick():
     return ["split kick", [-12, 1, 0], [-12, -1, 0]]
 
 def blue_shirt():
-    print("blue_shirt")
+    print("blue shirt")
 
 def red_shirt():
     print("red_shirt")
@@ -178,7 +180,7 @@ def kaklanck():
     print("kaklanck")
 
 def charm():
-    print("charm")
+    return["charm", []]
 
 def kind_hearted():
     print("kind_hearted")
@@ -216,11 +218,11 @@ outcome_functions = {
     15: flame_thrower,
     16: taco_bell,
     17: home_cookin,
-    18: greneade,
+    18: grenade,
     19: wario_steam,
     20: tipper,
     21: bair,
-    22: cannible,
+    22: cannibal,
     23: split_kick,
     24: blue_shirt,
     25: red_shirt,
