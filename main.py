@@ -70,8 +70,8 @@ opponent_images = [pygame.transform.rotate(opponent_image, angle) for angle in (
 #=============================================================================================
 
 def generate_random_number():
-    # return random.randint(0, 37)
-    return 21
+    return random.randint(0, 37)
+    #return 9
 
 def handle_random_outcome(player, other_player, random_number):
     global time_multiplier
@@ -116,7 +116,6 @@ def arm_day():
 
 def prayer():
     return ["prayer", [15, 0, 0], [15, 0, 1], [15, 1, 1], [15, 1, 0], [15, -1, 1], [15, 1, -1], [15, -1, -1], [15, -1, 0], [15, 0, -1]]
-    #not done
 
 def souls_like():
     print("souls_like")
@@ -126,7 +125,7 @@ def backflip():
     #not done
 
 def cocaine():
-    print("cocaine")
+    return ["cocaine", [-10, 0, 0]]
 
 def flame_thrower():
     return ["flame thrower", [-10, 0, 1, ], [-10, 1, 1, ], [-10, -1, 1, ], [-10, 0, 2, ], [-10, 1, 2, ], [-10, -1, 2, ]]
@@ -141,7 +140,7 @@ def grenade():
     return ["grenade", [-15, 0, 2, ], [-15, 1, 2, ], [-15, -1, 2, ], [-15, 0, 3, ], [-15, 1, 3, ], [-15, -1, 3, ], [-15, 0, 4], [-15, 1, 4], [-15, -1, 4]]
 
 def wario_steam():
-    print("wario_steam")
+    return ["wario steam", [-10, 0, 1, ], [-10, 1, 2, ], [-10, -1, 2, ], [-10, 0, 2, ]]
 
 def tipper():
     return ["tipper", [-5, 0, 1], [-20, 0, 2]]
@@ -168,10 +167,10 @@ def paper_cut():
     print("paper_cut")
 
 def dehydrated():
-    print("dehydrated")
+    return ["dehydrated", [-10, 0, 0]]
 
 def need_a_hand():
-    print("need_a_hand")
+    return ["need a hand", [-10, 0, 1], [-10, 0, 2]]
 
 def lazy():
     print("lazy")
@@ -183,10 +182,10 @@ def charm():
     return["charm", []]
 
 def kind_hearted():
-    print("kind_hearted")
+     return["kind hearted"]
 
 def but_y():
-    print("but_y")
+    return["but y"]
 
 def band_member():
     print("band_member")
@@ -198,7 +197,7 @@ def dizzy():
     print("dizzy")
 
 def fleshy():
-    print("fleshy")
+    return ["fleshy"]
 
 outcome_functions = {
     1: fire_ball,
@@ -264,14 +263,36 @@ class Player:
         #Special cases
         if input_code[0] == "zoom":
             self.x = random.randint(0, GRID_WIDTH-1)
-            self.y = random.randint(0, GRID_HEIGHT-1)            
+            self.y = random.randint(0, GRID_HEIGHT-1)
+        elif input_code[0] == "arm day":
+            self.attack_multiplier *= 1.25 * time_multiplier
+        elif input_code[0] == "cocaine":
+            self.attack_multiplier *= 1.40 * time_multiplier
+        elif input_code[0] == "fleshy":
+            other_player.attack_multiplier *= 1.3 * time_multiplier
+        elif input_code[0] == "kind hearted":
+            other_player.health += 20 * time_multiplier
+        elif input_code[0] == "but y":
+            other_player.health += 100 * time_multiplier
+        elif input_code[0] == "need a hand":
+                self.health /= 2 * time_multiplier
+        elif input_code[0] == "dehydrated":
+            self.attack_multiplier /= 1.5 * time_multiplier
+        # elif input_code[0] == "wario steam":  
+
+        #     if 0 <= self.x + dx < GRID_WIDTH and 0 <= self.y + dy < GRID_HEIGHT and not (self.x + dx == other_player.x and self.y + dy == other_player.y):
+        #         self.x += dx
+        #         self.y += dy
+        #     if 0 <= self.x + dx < GRID_WIDTH and 0 <= self.y + dy < GRID_HEIGHT and not (self.x + dx == other_player.x and self.y + dy == other_player.y):
+        #         self.x += dx
+        #         self.y += dy          
 
         for i in range(1, len(input_code)):
             coords = calculate_direction([input_code[i][1], input_code[i][2]], self.direction)
             if self.x + coords[0] == other_player.x and self.y + coords[1] == other_player.y:
-                other_player.health_change(input_code[i][0] * time_multiplier)
+                other_player.health_change(input_code[i][0] * time_multiplier * self.attack_multiplier)
             if self.x + coords[0] == self.x and self.y + coords[1] == self.y:
-                self.health_change(input_code[i][0] * time_multiplier)
+                self.health_change(input_code[i][0] * time_multiplier * self.attack_multiplier)
             
 
     def set_rotation(self, dx, dy):
