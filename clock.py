@@ -37,7 +37,7 @@ def main():
         #########################
         # Draw timer overlay
         timer_surface = pygame.Surface((200, 50), pygame.SRCALPHA)
-        #timer_surface.fill((0, 0, 0, 128))  # Semi-transparent black background
+        timer_surface.fill((0, 0, 0, 128))  # Semi-transparent black background
         timer_text = FONT.render(f"Time: {elapsed_time}s", True, BLACK)
         timer_surface.blit(timer_text, (0, 0))
         WINDOW.blit(timer_surface, (0, 0))  # Position the timer overlay

@@ -15,6 +15,10 @@ pygame.display.set_caption("Grid Movement Game")
 #Rendering settings
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+DARKRED = (144, 11, 10)
+RED = (195, 15, 14)
+ORANGE = (250, 91, 15)
+YELLOW = (255, 190, 0)
 FONT = pygame.font.SysFont(None, 30)
 
 # Load player and opponent images
@@ -72,28 +76,35 @@ def main():
                     player2.move(0, move_speed, player1)
 
         # Draw background
-        WINDOW.fill((255, 255, 255))
+        WINDOW.fill(WHITE)
 
         # Draw grid border
-        pygame.draw.rect(WINDOW, (0, 0, 0), (50, 50, GRID_WIDTH * GRID_SIZE, GRID_HEIGHT * GRID_SIZE), BORDER_SIZE)
+        pygame.draw.rect(WINDOW, DARKRED, (0, 0, GRID_WIDTH * GRID_SIZE + 120, GRID_HEIGHT * GRID_SIZE + 100), 50)
+        pygame.draw.rect(WINDOW, RED, (20, 20, GRID_WIDTH * GRID_SIZE + 60, GRID_HEIGHT * GRID_SIZE + 60), 10)
+        pygame.draw.rect(WINDOW, ORANGE, (30, 30, GRID_WIDTH * GRID_SIZE + 40, GRID_HEIGHT * GRID_SIZE + 40), 10)
+        pygame.draw.rect(WINDOW, YELLOW, (40, 40, GRID_WIDTH * GRID_SIZE + 20, GRID_HEIGHT * GRID_SIZE + 20), 10)
+        pygame.draw.rect(WINDOW, BLACK, (50, 50, GRID_WIDTH * GRID_SIZE, GRID_HEIGHT * GRID_SIZE), BORDER_SIZE)
+        
+        
 
         # Draw grid
         for x in range(50 + GRID_SIZE, 50 + GRID_WIDTH * GRID_SIZE, GRID_SIZE):
-            pygame.draw.line(WINDOW, (0, 0, 0), (x, 50), (x, 50 + GRID_HEIGHT * GRID_SIZE - 1), BORDER_SIZE)
+            pygame.draw.line(WINDOW, BLACK, (x, 50), (x, 50 + GRID_HEIGHT * GRID_SIZE - 1), BORDER_SIZE)
         for y in range(50 + GRID_SIZE, 50 + GRID_HEIGHT * GRID_SIZE, GRID_SIZE):
-            pygame.draw.line(WINDOW, (0, 0, 0), (50, y), (50 + GRID_WIDTH * GRID_SIZE - 1, y), BORDER_SIZE)
+            pygame.draw.line(WINDOW, BLACK, (50, y), (50 + GRID_WIDTH * GRID_SIZE - 1, y), BORDER_SIZE)
 
         # Draw players
         WINDOW.blit(player_image, (player1.x * GRID_SIZE + 50, player1.y * GRID_SIZE + 50))
         WINDOW.blit(opponent_image, (player2.x * GRID_SIZE + 50, player2.y * GRID_SIZE + 50))
 
         #clock
+        #####RESETS WHEN PLAYER ENDS TURN
         # Calculate elapsed time
         elapsed_time = (pygame.time.get_ticks() - start_time) // 1000  # Convert milliseconds to seconds
         # Draw timer overlay
-        timer_surface = pygame.Surface((200, 50), pygame.SRCALPHA)
-        #timer_surface.fill((0, 0, 0, 128))  # Semi-transparent black background
-        timer_text = FONT.render(f"Time: {elapsed_time}s", True, BLACK)
+        timer_surface = pygame.Surface((120, 30), pygame.SRCALPHA)
+        timer_surface.fill((0, 0, 0, 128))  # Semi-transparent black background
+        timer_text = FONT.render(f"Time: {elapsed_time}s", True, WHITE)
         timer_surface.blit(timer_text, (5, 5))
         WINDOW.blit(timer_surface, (5, 5))  # Position the timer overlay
 
