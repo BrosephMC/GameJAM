@@ -115,13 +115,15 @@ def arm_day():
     print("arm_day")
 
 def prayer():
-    return ["punch", [-20, 0, 1]]
+    return ["prayer", [15, 0, 0], [15, 0, 1], [15, 1, 1], [15, 1, 0], [15, -1, 1], [15, 1, -1], [15, -1, -1], [15, -1, 0], [15, 0, -1]]
+    #not done
 
 def souls_like():
     print("souls_like")
 
 def backflip():
-    print("backflip")
+    return ["backflip", [-10, 0, -1]]
+    #not done
 
 def cocaine():
     print("cocaine")
@@ -130,10 +132,10 @@ def flame_thrower():
     return ["flame thrower", [-10, 0, 1, ], [-10, 1, 1, ], [-10, -1, 1, ], [-10, 0, 2, ], [-10, 1, 2, ], [-10, -1, 2, ]]
 
 def taco_bell():
-    print("taco_bell")
+    return ["taco bell", [10, 0, 0]]
 
 def home_cookin():
-    print("home_cookin")
+    return ["home cookin", [25, 0, 0]]
 
 def grenade():
     return ["grenade", [-15, 0, 2, ], [-15, 1, 2, ], [-15, -1, 2, ], [-15, 0, 3, ], [-15, 1, 3, ], [-15, -1, 3, ], [-15, 0, 4], [-15, 1, 4], [-15, -1, 4]]
